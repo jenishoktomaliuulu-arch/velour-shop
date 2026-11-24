@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 
-st.set_page_config(page_title="VELOUR — Косметика и Уход", page_icon="🌸", layout="wide")
+st.set_page_config(page_title="VELOUR — Косметика и Уход", page_icon="🫧", layout="wide")
 
 if "cart" not in st.session_state:
     st.session_state.cart = {}
@@ -24,6 +24,14 @@ TEXTS = {
         "hero_title": "Профессиональный уход и чистка лица у вас дома",
         "hero_desc": "Оригинальная косметика из Кореи и Франции, аппараты для ультразвуковой чистки и подбор ухода от наших дипломированных косметологов.",
         "hero_promo": "Промокод на скидку 10% в корзине: VELOUR10",
+        "dev_section": "Наш флагманский аппарат для чистки лица",
+        "dev_badge": "СЕРТИФИЦИРОВАННОЕ ОБОРУДОВАНИЕ · 2026",
+        "dev_name": "Velour Sonic Pro — Ультразвуковой аппарат 4-в-1",
+        "dev_desc": "Профессиональный прибор для глубокой ультразвуковой чистки пор (28 кГц), ионофореза и деликатного микромассажа. Прошёл клинические испытания и безопасен даже для чувствительной кожи.",
+        "dev_specs": "• 4 режима работы: пилинг, очищение, питание, лифтинг\n• Медицинская нержавеющая сталь · Защита от влаги IPX5\n• Официальная гарантия 12 месяцев и сертификат соответствия",
+        "dev_cert_btn": "Сертификат аппарата",
+        "dev_cert_modal": "Сертификат соответствия аппарата",
+        "dev_add_btn": "В корзину — 24 900 ₸",
         "skin_cat_title": "Каталог по типам кожи",
         "skin_cat_sub": "Нажмите на нужный раздел, чтобы раскрыть подобранные средства",
         "main_cat_title": "Основной каталог косметики и аппаратов",
@@ -50,7 +58,7 @@ TEXTS = {
         "addr_phone": "+7 (700) 555-35-35",
         "faq_title": "Популярные вопросы",
         "cart_title": "Корзина",
-        "cart_empty": "Корзина пока пуста 🌸\nВыберите товары в каталоге.",
+        "cart_empty": "Корзина пока пуста 🫧\nВыберите товары в каталоге.",
         "promo_ph": "Промокод (VELOUR10)",
         "promo_btn": "Применить",
         "promo_ok": "Скидка 10% активирована!",
@@ -71,6 +79,14 @@ TEXTS = {
         "hero_title": "Үй жағдайындағы кәсіби күтім және бет тазалау",
         "hero_desc": "Корея мен Францияның түпнұсқа косметикасы, ультрадыбыстық тазалау аппараттары және дипломды косметологтардың кеңесі.",
         "hero_promo": "Себетте 10% жеңілдік промокоды: VELOUR10",
+        "dev_section": "Бет тазалауға арналған флагмандық аппарат",
+        "dev_badge": "СЕРТИФИКАТТАЛҒАН ҚҰРЫЛҒЫ · 2026",
+        "dev_name": "Velour Sonic Pro — 4-в-1 ультрадыбыстық аппараты",
+        "dev_desc": "Тері тесіктерін терең ультрадыбыстық тазалау (28 кГц), ионофорез және микромассажға арналған кәсіби құрылғы. Клиникалық сынақтан өткен.",
+        "dev_specs": "• 4 жұмыс режимі: пилинг, тазалау, нәрлендіру, лифтинг\n• Медициналық болат · Ылғалдан қорғау IPX5\n• 12 ай ресми кепілдік және сәйкестік сертификаты",
+        "dev_cert_btn": "Аппарат сертификаты",
+        "dev_cert_modal": "Аппараттың сәйкестік сертификаты",
+        "dev_add_btn": "Себетке — 24 900 ₸",
         "skin_cat_title": "Тері түрлері бойынша каталог",
         "skin_cat_sub": "Таңдалған өнімдерді көру үшін бөлімді басыңыз",
         "main_cat_title": "Косметика және аппараттар каталогы",
@@ -97,7 +113,7 @@ TEXTS = {
         "addr_phone": "+7 (700) 555-35-35",
         "faq_title": "Жиі қойылатын сұрақтар",
         "cart_title": "Себет",
-        "cart_empty": "Себет әзірге бос 🌸\nКаталогтан тауар таңдаңыз.",
+        "cart_empty": "Себет әзірге бос 🫧\nКаталогтан тауар таңдаңыз.",
         "promo_ph": "Промокод (VELOUR10)",
         "promo_btn": "Қолдану",
         "promo_ok": "10% жеңілдік іске қосылды!",
@@ -118,6 +134,14 @@ TEXTS = {
         "hero_title": "Professional Skincare & Facial Cleansing at Home",
         "hero_desc": "Authentic Korean & French cosmetics, ultrasonic cleansing devices, and personal care guidance from our certified cosmetologists.",
         "hero_promo": "Use promo code in cart for 10% OFF: VELOUR10",
+        "dev_section": "Our Flagship Facial Cleansing Device",
+        "dev_badge": "CERTIFIED BEAUTY DEVICE · 2026",
+        "dev_name": "Velour Sonic Pro — 4-in-1 Ultrasonic Scrubber",
+        "dev_desc": "Professional device for deep ultrasonic pore cleansing (28 kHz), iontophoresis, and gentle micro-massage. Clinically tested and safe for sensitive skin.",
+        "dev_specs": "• 4 modes: peeling, deep cleanse, nutrition, lifting\n• Medical-grade stainless steel · IPX5 waterproof\n• Official 12-month warranty & quality certificate",
+        "dev_cert_btn": "Device Certificate",
+        "dev_cert_modal": "Device Compliance & Safety Certificate",
+        "dev_add_btn": "Add to cart — 24 900 ₸",
         "skin_cat_title": "Catalog by Skin Type",
         "skin_cat_sub": "Click any skin concern to expand tailored products",
         "main_cat_title": "Main Cosmetics & Devices Catalog",
@@ -144,7 +168,7 @@ TEXTS = {
         "addr_phone": "+7 (700) 555-35-35",
         "faq_title": "Frequently Asked Questions",
         "cart_title": "Your Cart",
-        "cart_empty": "Your cart is empty 🌸\nPick something from the catalog.",
+        "cart_empty": "Your cart is empty 🫧\nPick something from the catalog.",
         "promo_ph": "Promo code (VELOUR10)",
         "promo_btn": "Apply",
         "promo_ok": "10% discount applied!",
@@ -160,15 +184,15 @@ TEXTS = {
     },
 }
 
-# CSS: розовый дизайн, лавовый фон, сакура в корзине, кнопки типов кожи и фикс тёмной темы
+# CSS: мягко-молочная палитра, тёплые лавовые переливы, отличительная молочная корзина и мыльные пузыри
 st.markdown(
     """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap');
 
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-        background-color: #FFF0F5 !important;
-        color: #2D161E !important;
+        background-color: #FAF6F0 !important;
+        color: #2E241F !important;
         font-family: 'Manrope', sans-serif !important;
     }
 
@@ -179,223 +203,247 @@ st.markdown(
     }
 
     [data-testid="stHeader"] {
-        background: rgba(255, 240, 245, 0.7) !important;
+        background: rgba(250, 246, 240, 0.78) !important;
         backdrop-filter: blur(10px);
     }
-    [data-testid="stHeader"] * { color: #4A1525 !important; }
+    [data-testid="stHeader"] * { color: #3D2B22 !important; }
 
-    /* Лавовый фон */
+    /* Мягко-молочный фон с плавающими кремовыми переливами */
     .lava-bg {
         position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none;
-        background: linear-gradient(135deg, #FFF2F6 0%, #FFE4EC 100%);
+        background: linear-gradient(135deg, #FCF9F4 0%, #F6EFE5 100%);
     }
     .lava-blob {
-        position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; will-change: transform;
+        position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.75; will-change: transform;
     }
-    .blob-1 { width: 440px; height: 440px; background: radial-gradient(circle, #FF5E7E 0%, #FF8FA3 70%); top: -80px; left: -60px; animation: float1 18s ease-in-out infinite alternate; }
-    .blob-2 { width: 500px; height: 500px; background: radial-gradient(circle, #E63956 0%, #FF758F 70%); bottom: -120px; right: -80px; animation: float2 22s ease-in-out infinite alternate; }
-    .blob-3 { width: 380px; height: 380px; background: radial-gradient(circle, #FF99B6 0%, #FF4D6D 75%); top: 35%; left: 40%; animation: float3 25s ease-in-out infinite alternate; }
-    .blob-4 { width: 320px; height: 320px; background: radial-gradient(circle, #D90429 0%, #FF758F 75%); opacity: 0.32; bottom: 20%; left: 10%; animation: float4 20s ease-in-out infinite alternate; }
+    .blob-1 { width: 460px; height: 460px; background: radial-gradient(circle, #EFE0CE 0%, #F7EDE2 70%); top: -90px; left: -60px; animation: float1 20s ease-in-out infinite alternate; }
+    .blob-2 { width: 520px; height: 520px; background: radial-gradient(circle, #E6D2BC 0%, #F3E6D8 70%); bottom: -120px; right: -80px; animation: float2 24s ease-in-out infinite alternate; }
+    .blob-3 { width: 400px; height: 400px; background: radial-gradient(circle, #F2DFCE 0%, #FAF2E8 75%); top: 35%; left: 40%; animation: float3 26s ease-in-out infinite alternate; }
+    .blob-4 { width: 340px; height: 340px; background: radial-gradient(circle, #DEC5AD 0%, #F2E4D6 75%); opacity: 0.45; bottom: 20%; left: 12%; animation: float4 22s ease-in-out infinite alternate; }
 
-    @keyframes float1 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(160px,110px) scale(1.15); } 100% { transform: translate(60px,240px) scale(0.95); } }
-    @keyframes float2 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-180px,-120px) scale(1.12); } 100% { transform: translate(-70px,-220px) scale(0.9); } }
-    @keyframes float3 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-150px,90px) scale(1.2); } 100% { transform: translate(140px,-100px) scale(0.92); } }
-    @keyframes float4 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(200px,-110px) scale(1.1); } 100% { transform: translate(90px,80px) scale(0.95); } }
+    @keyframes float1 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(150px,100px) scale(1.12); } 100% { transform: translate(50px,210px) scale(0.95); } }
+    @keyframes float2 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-160px,-110px) scale(1.1); } 100% { transform: translate(-60px,-200px) scale(0.92); } }
+    @keyframes float3 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-130px,80px) scale(1.16); } 100% { transform: translate(120px,-90px) scale(0.94); } }
+    @keyframes float4 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(180px,-100px) scale(1.08); } 100% { transform: translate(80px,70px) scale(0.95); } }
 
-    h1, h2, h3, h4, p, span, label { color: #2D161E !important; }
+    h1, h2, h3, h4, p, span, label { color: #2E241F !important; }
 
     .brand-title {
         font-family: 'Cormorant Garamond', serif;
         font-size: 54px; font-weight: 700; letter-spacing: 6px;
-        color: #4A1525 !important; margin-bottom: 2px; line-height: 1.05;
+        color: #3D2B22 !important; margin-bottom: 2px; line-height: 1.05;
     }
-    .brand-sub { font-size: 15px; color: #7A4353 !important; margin-bottom: 12px; }
+    .brand-sub { font-size: 15px; color: #756054 !important; margin-bottom: 12px; }
 
     .skin-nav-label {
-        font-size: 14px; font-weight: 600; color: #6B3144 !important;
+        font-size: 14px; font-weight: 600; color: #5C473B !important;
         margin-bottom: 10px;
     }
 
     .section-heading {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 36px; font-weight: 700; color: #4A1525 !important;
+        font-size: 36px; font-weight: 700; color: #3D2B22 !important;
         margin-top: 28px; margin-bottom: 4px;
     }
-    .section-sub { font-size: 14px; color: #7A4353 !important; margin-bottom: 16px; }
+    .section-sub { font-size: 14px; color: #756054 !important; margin-bottom: 16px; }
 
     /* Hero-баннер */
     .hero-banner {
-        background: rgba(255, 255, 255, 0.78);
+        background: rgba(255, 253, 249, 0.85);
         backdrop-filter: blur(16px);
-        border: 1px solid rgba(201, 24, 74, 0.22);
+        border: 1px solid rgba(163, 123, 94, 0.25);
         border-radius: 22px;
         padding: 26px 32px;
         margin-top: 14px;
         margin-bottom: 24px;
-        box-shadow: 0 12px 30px rgba(168, 46, 82, 0.08);
+        box-shadow: 0 12px 30px rgba(92, 68, 52, 0.06);
     }
     .hero-tag {
         display: inline-block;
-        background: linear-gradient(135deg, #C9184A, #FF5E7E);
+        background: linear-gradient(135deg, #9C6B4E, #BC8C6D);
         color: #FFFFFF !important;
         font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
         padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
     }
     .hero-title {
         font-family: 'Cormorant Garamond', serif;
-        font-size: 38px; font-weight: 700; color: #3D1220 !important;
+        font-size: 38px; font-weight: 700; color: #2E241F !important;
         line-height: 1.12; margin-bottom: 10px;
     }
-    .hero-desc { font-size: 15px; color: #6B3C4B !important; line-height: 1.5; margin-bottom: 14px; max-width: 720px; }
+    .hero-desc { font-size: 15px; color: #635147 !important; line-height: 1.5; margin-bottom: 14px; max-width: 720px; }
     .hero-promo {
-        display: inline-block; background: #FFE3EC; border: 1px dashed #C9184A;
-        color: #9E1038 !important; font-size: 13px; font-weight: 600;
+        display: inline-block; background: #F5EBE0; border: 1px dashed #9C6B4E;
+        color: #7A4F35 !important; font-size: 13px; font-weight: 600;
         padding: 6px 14px; border-radius: 10px;
+    }
+
+    /* Витрина флагманского аппарата */
+    .device-showcase {
+        background: rgba(255, 253, 250, 0.9);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(156, 107, 78, 0.3);
+        border-radius: 20px;
+        padding: 22px;
+        margin-bottom: 16px;
+        box-shadow: 0 10px 28px rgba(92, 68, 52, 0.07);
     }
 
     /* Аккордеон */
     [data-testid="stExpander"] {
-        background: rgba(255, 255, 255, 0.82) !important;
+        background: rgba(255, 253, 250, 0.85) !important;
         backdrop-filter: blur(14px);
-        border: 1px solid rgba(217, 79, 112, 0.25) !important;
+        border: 1px solid rgba(163, 123, 94, 0.25) !important;
         border-radius: 16px !important;
         margin-bottom: 12px !important;
-        box-shadow: 0 8px 24px rgba(168, 46, 82, 0.06);
+        box-shadow: 0 8px 24px rgba(92, 68, 52, 0.05);
         overflow: hidden;
     }
     [data-testid="stExpander"] details,
     [data-testid="stExpander"] summary,
     [data-testid="stExpanderDetails"] {
-        background-color: rgba(255, 255, 255, 0.65) !important;
-        color: #2D161E !important;
+        background-color: rgba(255, 253, 250, 0.72) !important;
+        color: #2E241F !important;
     }
     [data-testid="stExpander"] summary { padding: 15px 20px !important; font-size: 17px !important; }
-    [data-testid="stExpander"] summary svg { fill: #A4133C !important; color: #A4133C !important; }
-    [data-testid="stExpander"] summary:hover { background-color: rgba(255, 227, 236, 0.65) !important; }
+    [data-testid="stExpander"] summary svg { fill: #9C6B4E !important; color: #9C6B4E !important; }
+    [data-testid="stExpander"] summary:hover { background-color: rgba(242, 232, 220, 0.65) !important; }
 
     /* Карточки товаров */
     .product-card-box {
-        background: rgba(255, 255, 255, 0.94);
-        border: 1px solid rgba(217, 79, 112, 0.2);
+        background: #FFFDFB;
+        border: 1px solid rgba(163, 123, 94, 0.22);
         border-radius: 16px; overflow: hidden; margin-bottom: 10px;
-        box-shadow: 0 6px 18px rgba(150, 35, 68, 0.07);
+        box-shadow: 0 6px 18px rgba(92, 68, 52, 0.06);
         transition: transform 0.2s ease;
     }
     .product-card-box:hover { transform: translateY(-3px); }
     .product-card-img { width: 100%; height: 215px; object-fit: cover; display: block; }
     .product-card-body { padding: 14px 16px 12px 16px; }
     .product-badge {
-        display: inline-block; background: #FFE3EC; color: #A4133C !important;
+        display: inline-block; background: #F5EBE0; color: #85563B !important;
         font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; margin-bottom: 8px;
     }
     .product-name {
         font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700;
-        color: #2D161E !important; line-height: 1.15; height: 50px; overflow: hidden; margin-bottom: 6px;
+        color: #2E241F !important; line-height: 1.15; height: 50px; overflow: hidden; margin-bottom: 6px;
     }
     .product-short {
-        font-size: 13px; color: #6B4250 !important; line-height: 1.4; height: 38px; overflow: hidden; margin-bottom: 10px;
+        font-size: 13px; color: #6E5B50 !important; line-height: 1.4; height: 38px; overflow: hidden; margin-bottom: 10px;
     }
-    .product-price { font-size: 18px; font-weight: 700; color: #A4133C !important; }
+    .product-price { font-size: 18px; font-weight: 700; color: #8A5A3E !important; }
 
     /* Карточки специалистов */
     .spec-card {
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid rgba(217, 79, 112, 0.22);
+        background: #FFFDFB;
+        border: 1px solid rgba(163, 123, 94, 0.24);
         border-radius: 18px; overflow: hidden; margin-bottom: 10px;
-        box-shadow: 0 8px 22px rgba(150, 35, 68, 0.08);
+        box-shadow: 0 8px 22px rgba(92, 68, 52, 0.06);
     }
-    .spec-card-lead { border: 2px solid #C9184A !important; box-shadow: 0 10px 28px rgba(201, 24, 74, 0.16); }
+    .spec-card-lead { border: 2px solid #9C6B4E !important; box-shadow: 0 10px 28px rgba(156, 107, 78, 0.16); }
     .spec-img { width: 100%; height: 260px; object-fit: cover; object-position: top; display: block; }
     .spec-body { padding: 16px; }
     .spec-badge-lead {
-        display: inline-block; background: linear-gradient(135deg, #C9184A, #E04F73);
+        display: inline-block; background: linear-gradient(135deg, #9C6B4E, #BC8C6D);
         color: #FFFFFF !important; font-size: 11px; font-weight: 700;
         padding: 4px 10px; border-radius: 999px; margin-bottom: 8px;
     }
     .spec-badge {
-        display: inline-block; background: #FFE3EC; color: #A4133C !important;
+        display: inline-block; background: #F5EBE0; color: #85563B !important;
         font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; margin-bottom: 8px;
     }
-    .spec-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #2D161E !important; margin-bottom: 4px; }
-    .spec-role { font-size: 13px; font-weight: 600; color: #A4133C !important; margin-bottom: 8px; }
-    .spec-bio { font-size: 13px; color: #6B4250 !important; line-height: 1.45; min-height: 60px; }
+    .spec-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #2E241F !important; margin-bottom: 4px; }
+    .spec-role { font-size: 13px; font-weight: 600; color: #8A5A3E !important; margin-bottom: 8px; }
+    .spec-bio { font-size: 13px; color: #6E5B50 !important; line-height: 1.45; min-height: 60px; }
 
     .address-card {
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 253, 250, 0.9);
         backdrop-filter: blur(14px);
-        border: 1px solid rgba(217, 79, 112, 0.25);
+        border: 1px solid rgba(163, 123, 94, 0.25);
         border-radius: 18px; padding: 24px; height: 100%;
-        box-shadow: 0 8px 24px rgba(150, 35, 68, 0.07);
+        box-shadow: 0 8px 24px rgba(92, 68, 52, 0.06);
     }
 
     /* Кнопки */
     div.stButton > button { border-radius: 12px !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
-    div.stButton > button[kind="primary"] { background: linear-gradient(135deg, #C9184A, #E04F73) !important; border: none !important; }
+    div.stButton > button[kind="primary"] { background: linear-gradient(135deg, #9C6B4E, #B88667) !important; border: none !important; }
     div.stButton > button[kind="primary"] * { color: #FFFFFF !important; }
-    div.stButton > button[kind="secondary"] { background: rgba(255, 255, 255, 0.92) !important; border: 1px solid rgba(201, 24, 74, 0.35) !important; }
-    div.stButton > button[kind="secondary"] * { color: #800F2F !important; }
-    div.stButton > button[kind="secondary"]:hover { background: #FFE3EC !important; border-color: #C9184A !important; transform: translateY(-1px); }
+    div.stButton > button[kind="secondary"] { background: #FFFDFB !important; border: 1px solid rgba(156, 107, 78, 0.38) !important; }
+    div.stButton > button[kind="secondary"] * { color: #5C3D2B !important; }
+    div.stButton > button[kind="secondary"]:hover { background: #F5EBE0 !important; border-color: #9C6B4E !important; transform: translateY(-1px); }
 
     /* Модальные окна */
     div[role="dialog"], div[role="dialog"] > div, [data-testid="stDialog"] div[role="dialog"] {
-        background-color: #FFF6F9 !important; color: #2D161E !important;
-        border: 1px solid rgba(201, 24, 74, 0.25) !important; border-radius: 18px !important;
+        background-color: #FCF9F4 !important; color: #2E241F !important;
+        border: 1px solid rgba(156, 107, 78, 0.3) !important; border-radius: 18px !important;
     }
     div[role="dialog"] h1, div[role="dialog"] h2, div[role="dialog"] h3, div[role="dialog"] p, div[role="dialog"] span, div[role="dialog"] strong {
-        color: #2D161E !important;
+        color: #2E241F !important;
     }
-    div[role="dialog"] button[aria-label="Close"] svg { fill: #4A1525 !important; color: #4A1525 !important; }
+    div[role="dialog"] button[aria-label="Close"] svg { fill: #3D2B22 !important; color: #3D2B22 !important; }
 
-    /* Корзина и падающая сакура */
+    /* Корзина: чуть более плотный мягко-молочный оттенок + мыльные пузыри */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #FFF0F5 0%, #FFE0EA 100%) !important;
-        border-right: 1px solid rgba(217, 79, 112, 0.25) !important;
+        background: linear-gradient(180deg, #F3ECE1 0%, #EAE0D2 100%) !important;
+        border-right: 1px solid rgba(156, 107, 78, 0.25) !important;
         overflow: hidden !important;
     }
     [data-testid="stSidebarContent"] { position: relative; z-index: 2; }
     [data-testid="stSidebar"] input {
-        background-color: rgba(255, 255, 255, 0.92) !important;
-        color: #2D161E !important;
-        border: 1px solid rgba(201, 24, 74, 0.3) !important;
+        background-color: rgba(255, 253, 250, 0.95) !important;
+        color: #2E241F !important;
+        border: 1px solid rgba(156, 107, 78, 0.32) !important;
         border-radius: 8px !important;
     }
     .cart-empty-box {
-        background: rgba(255, 255, 255, 0.72); border: 1px dashed rgba(201, 24, 74, 0.35);
+        background: rgba(255, 253, 250, 0.78); border: 1px dashed rgba(156, 107, 78, 0.4);
         border-radius: 14px; padding: 18px 14px; text-align: center;
-        color: #6B3144 !important; font-size: 14px; line-height: 1.5; backdrop-filter: blur(6px);
+        color: #5C473B !important; font-size: 14px; line-height: 1.5; backdrop-filter: blur(6px);
     }
     .cart-item-card {
-        background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(217, 79, 112, 0.2);
+        background: rgba(255, 253, 250, 0.88); border: 1px solid rgba(156, 107, 78, 0.22);
         border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; backdrop-filter: blur(6px);
     }
-    .sakura-layer {
+
+    /* Слой с мыльными пузырями в корзине */
+    .bubbles-layer {
         position: fixed; top: 0; left: 0; width: 340px; height: 100vh;
         pointer-events: none; overflow: hidden; z-index: 0;
     }
-    .petal {
-        position: absolute; top: -30px; width: 14px; height: 10px;
-        background: linear-gradient(135deg, #FFD1DC 0%, #FF8FAB 100%);
-        border-radius: 150% 0 150% 0; opacity: 0.75;
-        box-shadow: 0 0 6px rgba(255, 143, 171, 0.4);
-        animation: sakuraFall linear infinite;
+    .bubble {
+        position: absolute;
+        bottom: -50px;
+        border-radius: 50%;
+        background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 244, 232, 0.35) 35%,
+            rgba(222, 238, 255, 0.28) 65%,
+            rgba(255, 215, 230, 0.25) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        box-shadow:
+            inset -3px -3px 8px rgba(180, 155, 135, 0.18),
+            inset 2px 2px 6px rgba(255, 255, 255, 0.95),
+            0 4px 10px rgba(140, 110, 90, 0.08);
+        animation: bubbleRise linear infinite;
     }
-    .p1 { left: 8%;  width: 13px; height: 9px;  animation-duration: 11s; animation-delay: 0s; }
-    .p2 { left: 22%; width: 16px; height: 11px; animation-duration: 14s; animation-delay: -3s; }
-    .p3 { left: 38%; width: 11px; height: 8px;  animation-duration: 10s; animation-delay: -6s; }
-    .p4 { left: 54%; width: 15px; height: 10px; animation-duration: 13s; animation-delay: -2s; }
-    .p5 { left: 70%; width: 12px; height: 9px;  animation-duration: 15s; animation-delay: -8s; }
-    .p6 { left: 84%; width: 14px; height: 10px; animation-duration: 12s; animation-delay: -4s; }
-    .p7 { left: 15%; width: 10px; height: 7px;  animation-duration: 16s; animation-delay: -9s; }
-    .p8 { left: 46%; width: 13px; height: 9px;  animation-duration: 11.5s; animation-delay: -5s; }
-    .p9 { left: 63%; width: 15px; height: 11px; animation-duration: 14.5s; animation-delay: -1s; }
-    .p10{ left: 90%; width: 11px; height: 8px;  animation-duration: 13.5s; animation-delay: -7s; }
+    .b1  { left: 10%; width: 22px; height: 22px; animation-duration: 12s; animation-delay: 0s; }
+    .b2  { left: 26%; width: 34px; height: 34px; animation-duration: 16s; animation-delay: -4s; }
+    .b3  { left: 42%; width: 16px; height: 16px; animation-duration: 10s; animation-delay: -7s; }
+    .b4  { left: 58%; width: 28px; height: 28px; animation-duration: 14s; animation-delay: -2s; }
+    .b5  { left: 74%; width: 20px; height: 20px; animation-duration: 13s; animation-delay: -9s; }
+    .b6  { left: 86%; width: 30px; height: 30px; animation-duration: 17s; animation-delay: -5s; }
+    .b7  { left: 18%; width: 14px; height: 14px; animation-duration: 11s; animation-delay: -3s; }
+    .b8  { left: 50%; width: 24px; height: 24px; animation-duration: 15s; animation-delay: -8s; }
+    .b9  { left: 66%; width: 18px; height: 18px; animation-duration: 12.5s; animation-delay: -1s; }
+    .b10 { left: 34%; width: 26px; height: 26px; animation-duration: 18s; animation-delay: -11s; }
 
-    @keyframes sakuraFall {
-        0% { transform: translateY(-20px) translateX(0px) rotate(0deg); opacity: 0; }
-        10% { opacity: 0.8; }
-        50% { transform: translateY(50vh) translateX(28px) rotate(180deg); opacity: 0.75; }
-        90% { opacity: 0.7; }
-        100% { transform: translateY(105vh) translateX(-18px) rotate(360deg); opacity: 0; }
+    @keyframes bubbleRise {
+        0%   { transform: translateY(0) translateX(0px) scale(0.9); opacity: 0; }
+        12%  { opacity: 0.85; }
+        50%  { transform: translateY(-52vh) translateX(18px) scale(1.04); opacity: 0.8; }
+        88%  { opacity: 0.75; }
+        100% { transform: translateY(-108vh) translateX(-14px) scale(1.08); opacity: 0; }
     }
     </style>
 
@@ -410,7 +458,6 @@ st.markdown(
 )
 
 
-# Вспомогательная функция для создания товара (чтобы код был чистым и компактным)
 def p(pid, n_ru, n_kz, n_en, s_ru, s_kz, s_en, d_ru, d_kz, d_en, vol, o_ru, o_kz, o_en, year, sh_ru, sh_kz, sh_en, ing_ru, ing_kz, ing_en, price, img):
     return {
         "id": pid,
@@ -427,7 +474,19 @@ def p(pid, n_ru, n_kz, n_en, s_ru, s_kz, s_en, d_ru, d_kz, d_en, vol, o_ru, o_kz
     }
 
 
-# 1. КАТАЛОГ ПО ТИПАМ КОЖИ (привязан к верхним кнопкам)
+# Флагманский аппарат (для отдельной витрины с сертификатом)
+FLAGSHIP_DEVICE = p(
+    "d1", "УЗ-скрабер Velour Sonic Pro", "Velour Sonic Pro УД-скрабері", "Velour Sonic Pro Scrubber",
+    "Глубокая ультразвуковая чистка пор (28 кГц).", "Тері тесіктерін ультрадыбыспен терең тазалау.", "Deep ultrasonic pore cleansing (28 kHz).",
+    "Профессиональный аппарат для УЗ-чистки лица. Удаляет чёрные точки и усиливает впитывание сывороток в 3 раза.",
+    "Ультрадыбыстық тазалау аппараты. Қара нүктелерді кетіріп, сарысулардың сіңуін 3 есе арттырады.",
+    "Professional ultrasonic facial scrubber. Removes blackheads and boosts serum absorption 3x.",
+    "4 режима · 95 г", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "Гарантия 12 мес.", "Кепілдік 12 ай", "12-mo warranty",
+    "Аппарат, чехол, USB-C кабель, инструкция", "Аппарат, қап, USB-C, нұсқаулық", "Device, cover, USB-C cable, manual",
+    24900, "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=700&q=80"
+)
+
+# 1. КАТАЛОГ ПО ТИПАМ КОЖИ
 SKIN_CATALOG = [
     {
         "id": "skin_hydrated",
@@ -559,21 +618,14 @@ SKIN_CATALOG = [
     },
 ]
 
-# 2. ОСНОВНОЙ ОТДЕЛЬНЫЙ КАТАЛОГ КОСМЕТИКИ И АППАРАТОВ (18 товаров)
+# 2. ОСНОВНОЙ ОТДЕЛЬНЫЙ КАТАЛОГ КОСМЕТИКИ И АППАРАТОВ
 MAIN_CATALOG = [
     {
         "id": "cat_devices",
         "title": {"RU": "01 · Аппараты для чистки лица", "KZ": "01 · Бет тазалау аппараттары", "EN": "01 · Facial Cleansing Devices"},
         "subtitle": {"RU": "Ультразвуковой пилинг, вакуум и лифтинг дома", "KZ": "Ультрадыбыстық пилинг, вакуум және лифтинг", "EN": "Ultrasonic peeling, pore vacuum and lifting"},
         "products": [
-            p("d1", "УЗ-скрабер Velour Sonic Pro", "Velour Sonic Pro УД-скрабері", "Velour Sonic Pro Scrubber",
-              "Глубокая ультразвуковая чистка пор (28 кГц).", "Тері тесіктерін ультрадыбыспен терең тазалау.", "Deep ultrasonic pore cleansing (28 kHz).",
-              "Профессиональный аппарат для УЗ-чистки лица. Удаляет чёрные точки и усиливает впитывание сывороток в 3 раза.",
-              "Ультрадыбыстық тазалау аппараты. Қара нүктелерді кетіріп, сарысулардың сіңуін 3 есе арттырады.",
-              "Professional ultrasonic facial scrubber. Removes blackheads and boosts serum absorption 3x.",
-              "4 режима · 95 г", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "Гарантия 12 мес.", "Кепілдік 12 ай", "12-mo warranty",
-              "Аппарат, чехол, USB-C кабель, инструкция", "Аппарат, қап, USB-C, нұсқаулық", "Device, cover, USB-C cable, manual",
-              24900, "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80"),
+            FLAGSHIP_DEVICE,
             p("d2", "Вакуумный очиститель Pore Vacuum", "Pore Vacuum тазартқышы", "Pore Vacuum Cleanser",
               "Бережное очищение Т-зоны без покраснений.", "Т-аймақты қызарусыз ұқыпты тазалау.", "Gentle T-zone cleansing without redness.",
               "Вакуумный аппарат с 4 сменными насадками и 3 уровнями мощности. Эффективно очищает забитые поры.",
@@ -735,7 +787,6 @@ MAIN_CATALOG = [
     },
 ]
 
-# Специалисты: 1 главный специалист (с сертификатом и учёбой) + 2 коллеги
 SPECIALISTS = [
     {
         "is_lead": True,
@@ -789,7 +840,6 @@ SPECIALISTS = [
     },
 ]
 
-# Популярные вопросы (FAQ)
 FAQ_LIST = [
     {
         "q": {"RU": "Вся ли косметика оригинальная?", "KZ": "Барлық косметика түпнұсқа ма?", "EN": "Are all products 100% original?"},
@@ -852,7 +902,7 @@ def show_product_details(product):
     with col_info:
         st.markdown(f"### {product['name'][lang]}")
         st.markdown(
-            f"<div style='font-size:22px; font-weight:700; color:#A4133C; margin-bottom:10px;'>{product['price']:,} ₸</div>".replace(",", " "),
+            f"<div style='font-size:22px; font-weight:700; color:#8A5A3E; margin-bottom:10px;'>{product['price']:,} ₸</div>".replace(",", " "),
             unsafe_allow_html=True,
         )
         st.write(product["desc"][lang])
@@ -869,6 +919,24 @@ def show_product_details(product):
             st.rerun()
 
 
+@st.dialog(t["dev_cert_modal"], width="large")
+def show_device_certificate():
+    st.markdown(f"### {t['dev_name']}")
+    st.write("✅ Декларация соответствия ЕАЭС № ЕАЭС N RU Д-KR.РА01.В.44912/26")
+    st.write("✅ Международная сертификация безопасности CE / RoHS / KC (Южная Корея)")
+    st.write("✅ Дерматологическое тестирование: одобрено для домашнего использования")
+    st.markdown(
+        """
+        <div style="margin-top:16px; padding:22px; border:2px dashed #9C6B4E; border-radius:14px; background:#F6EFE5; text-align:center;">
+            <div style="font-family:'Cormorant Garamond', serif; font-size:26px; font-weight:700; color:#5C3D2B;">OFFICIAL QUALITY CERTIFICATE</div>
+            <div style="font-size:13px; color:#6E5B50; margin-top:6px;">Ultrasonic Facial Cleansing Device · Velour Sonic Pro (28 kHz)</div>
+            <div style="font-size:15px; font-weight:700; color:#2E241F; margin-top:10px;">EAC / CE / KC Approved · Reg #KR-2026-99401</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 @st.dialog(t["cert_modal"], width="large")
 def show_certificate(spec):
     st.markdown(f"### {spec['name']}")
@@ -878,10 +946,10 @@ def show_certificate(spec):
         st.markdown(f"✅ {item}")
     st.markdown(
         """
-        <div style="margin-top:16px; padding:20px; border:2px dashed #C9184A; border-radius:14px; background:#FFF0F5; text-align:center;">
-            <div style="font-family:'Cormorant Garamond', serif; font-size:26px; font-weight:700; color:#800F2F;">CERTIFICATE OF EXCELLENCE</div>
-            <div style="font-size:13px; color:#6B4250; margin-top:6px;">Esthetic Pro Europe · Hardware Cosmetology & Dermatology</div>
-            <div style="font-size:15px; font-weight:700; color:#2D161E; margin-top:10px;">Amina Nurlanova · ID #KZ-88412</div>
+        <div style="margin-top:16px; padding:20px; border:2px dashed #9C6B4E; border-radius:14px; background:#F6EFE5; text-align:center;">
+            <div style="font-family:'Cormorant Garamond', serif; font-size:26px; font-weight:700; color:#5C3D2B;">CERTIFICATE OF EXCELLENCE</div>
+            <div style="font-size:13px; color:#6E5B50; margin-top:6px;">Esthetic Pro Europe · Hardware Cosmetology & Dermatology</div>
+            <div style="font-size:15px; font-weight:700; color:#2E241F; margin-top:10px;">Amina Nurlanova · ID #KZ-88412</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -890,12 +958,10 @@ def show_certificate(spec):
 
 def render_catalog_block(categories):
     for category in categories:
-        # Якорь для плавной прокрутки
         st.markdown(f'<div id="anchor_{category["id"]}"></div>', unsafe_allow_html=True)
         is_open = st.session_state.active_cat == category["id"]
         with st.expander(f"**{category['title'][lang]}**  —  {category['subtitle'][lang]}", expanded=is_open):
             products = category["products"]
-            # Разбиваем по 3 товара в ряд для идеальной ровности
             for row_start in range(0, len(products), 3):
                 row_items = products[row_start:row_start + 3]
                 cols = st.columns(3, gap="medium")
@@ -942,7 +1008,7 @@ with head_right:
                 st.session_state.lang = code
                 st.rerun()
 
-# 2. ВЫБОР ТИПА КОЖИ СВЕРХУ (НАД ХИТОМ СЕЗОНА) — ПО КЛИКУ ПЕРЕХОДИТ К КАТАЛОГУ ВНИЗУ
+# 2. ВЫБОР ТИПА КОЖИ СВЕРХУ (НАД ХИТОМ СЕЗОНА)
 st.markdown(f'<div class="skin-nav-label">{t["skin_nav_title"]}</div>', unsafe_allow_html=True)
 skin_btn_cols = st.columns(4, gap="small")
 for idx_sk, sk_cat in enumerate(SKIN_CATALOG):
@@ -971,17 +1037,48 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# 4. ОТДЕЛЬНЫЙ КАТАЛОГ ПО ТИПАМ КОЖИ (РАСКРЫВАЕТСЯ ПО КЛИКУ)
+# 4. ОТДЕЛЬНЫЙ БЛОК: АППАРАТ ДЛЯ ЧИСТКИ ЛИЦА + СЕРТИФИКАТ
+st.markdown(f'<div class="section-heading">{t["dev_section"]}</div>', unsafe_allow_html=True)
+dev_col1, dev_col2 = st.columns([1, 1.5], gap="large")
+with dev_col1:
+    st.markdown(
+        f'<img src="{FLAGSHIP_DEVICE["img"]}" style="width:100%; height:290px; object-fit:cover; border-radius:18px; border:1px solid rgba(156,107,78,0.28);">',
+        unsafe_allow_html=True,
+    )
+with dev_col2:
+    st.markdown(
+        f"""
+        <div class="device-showcase">
+            <span class="hero-tag">{t['dev_badge']}</span>
+            <div style="font-family:'Cormorant Garamond', serif; font-size:30px; font-weight:700; color:#2E241F; margin-bottom:8px;">
+                {t['dev_name']}
+            </div>
+            <p style="font-size:14px; color:#635147; line-height:1.5; margin-bottom:10px;">{t['dev_desc']}</p>
+            <p style="font-size:13px; color:#5C473B; line-height:1.6; white-space:pre-line; margin-bottom:0;">{t['dev_specs']}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    db1, db2 = st.columns(2, gap="small")
+    with db1:
+        if st.button(f"📜 {t['dev_cert_btn']}", key="dev_cert_open", type="secondary", use_container_width=True):
+            show_device_certificate()
+    with db2:
+        if st.button(t["dev_add_btn"], key="dev_buy_now", type="primary", use_container_width=True):
+            add_to_cart(FLAGSHIP_DEVICE)
+            st.toast(f"{t['added_toast']} {FLAGSHIP_DEVICE['name'][lang]}")
+
+# 5. ОТДЕЛЬНЫЙ КАТАЛОГ ПО ТИПАМ КОЖИ
 st.markdown(f'<div class="section-heading">{t["skin_cat_title"]}</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="section-sub">{t["skin_cat_sub"]}</div>', unsafe_allow_html=True)
 render_catalog_block(SKIN_CATALOG)
 
-# 5. ОТДЕЛЬНЫЙ ОСНОВНОЙ КАТАЛОГ КОСМЕТИКИ И АППАРАТОВ (РАСКРЫВАЕТСЯ ПО КЛИКУ)
+# 6. ОТДЕЛЬНЫЙ ОСНОВНОЙ КАТАЛОГ КОСМЕТИКИ И АППАРАТОВ
 st.markdown(f'<div class="section-heading">{t["main_cat_title"]}</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="section-sub">{t["main_cat_sub"]}</div>', unsafe_allow_html=True)
 render_catalog_block(MAIN_CATALOG)
 
-# 6. СПЕЦИАЛИСТЫ (1 ГЛАВНЫЙ + 2 КОЛЛЕГИ)
+# 7. СПЕЦИАЛИСТЫ (1 ГЛАВНЫЙ + 2 КОЛЛЕГИ)
 st.markdown(f'<div class="section-heading">{t["team_title"]}</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="section-sub">{t["team_sub"]}</div>', unsafe_allow_html=True)
 
@@ -1010,7 +1107,7 @@ for idx_s, spec in enumerate(SPECIALISTS):
             if st.button(f"🎓 {t['cert_btn']}", key="lead_cert_btn", type="primary", use_container_width=True):
                 show_certificate(spec)
 
-# 7. АДРЕС И КАРТА (САТТАРХАНОВА 5)
+# 8. АДРЕС И КАРТА (САТТАРХАНОВА 5)
 st.markdown(f'<div class="section-heading">{t["addr_title"]}</div>', unsafe_allow_html=True)
 addr_col1, addr_col2 = st.columns([1, 1.6], gap="large")
 
@@ -1022,7 +1119,7 @@ with addr_col1:
             <p style="font-size:16px; margin-bottom:12px;">📍 <b>{t['addr_text']}</b></p>
             <p style="font-size:15px; margin-bottom:12px;">🕒 {t['addr_hours']}</p>
             <p style="font-size:15px; margin-bottom:12px;">📞 {t['addr_phone']}</p>
-            <p style="font-size:14px; color:#7A4353;">Instagram: @velour.beauty.kz</p>
+            <p style="font-size:14px; color:#756054;">Instagram: @velour.beauty.kz</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1031,7 +1128,7 @@ with addr_col1:
 with addr_col2:
     components.html(
         """
-        <div style="border-radius:18px; overflow:hidden; border:1px solid rgba(217,79,112,0.3); box-shadow:0 8px 24px rgba(150,35,68,0.08);">
+        <div style="border-radius:18px; overflow:hidden; border:1px solid rgba(156,107,78,0.3); box-shadow:0 8px 24px rgba(92,68,52,0.08);">
             <iframe
                 width="100%"
                 height="260"
@@ -1046,13 +1143,13 @@ with addr_col2:
         height=275,
     )
 
-# 8. ПОПУЛЯРНЫЕ ВОПРОСЫ (FAQ)
+# 9. ПОПУЛЯРНЫЕ ВОПРОСЫ (FAQ)
 st.markdown(f'<div class="section-heading">{t["faq_title"]}</div>', unsafe_allow_html=True)
 for item_faq in FAQ_LIST:
     with st.expander(f"**{item_faq['q'][lang]}**", expanded=False):
         st.write(item_faq["a"][lang])
 
-# 9. ПЛАВНАЯ ПРОКРУТКА К ВЫБРАННОМУ ТИПУ КОЖИ
+# 10. ПЛАВНАЯ ПРОКРУТКА К ВЫБРАННОМУ ТИПУ КОЖИ
 if st.session_state.scroll_to:
     target_id = st.session_state.scroll_to
     components.html(
@@ -1070,22 +1167,22 @@ if st.session_state.scroll_to:
     )
     st.session_state.scroll_to = None
 
-# 10. БОКОВАЯ ПАНЕЛЬ — КОРЗИНА С САКУРОЙ И ПРОМОКОДОМ
+# 11. БОКОВАЯ ПАНЕЛЬ — КОРЗИНА С МЫЛЬНЫМИ ПУЗЫРЯМИ И ПРОМОКОДОМ
 with st.sidebar:
     st.markdown(
         """
-        <div class="sakura-layer">
-            <div class="petal p1"></div><div class="petal p2"></div>
-            <div class="petal p3"></div><div class="petal p4"></div>
-            <div class="petal p5"></div><div class="petal p6"></div>
-            <div class="petal p7"></div><div class="petal p8"></div>
-            <div class="petal p9"></div><div class="petal p10"></div>
+        <div class="bubbles-layer">
+            <div class="bubble b1"></div><div class="bubble b2"></div>
+            <div class="bubble b3"></div><div class="bubble b4"></div>
+            <div class="bubble b5"></div><div class="bubble b6"></div>
+            <div class="bubble b7"></div><div class="bubble b8"></div>
+            <div class="bubble b9"></div><div class="bubble b10"></div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown(f"## 🌸 {t['cart_title']}")
+    st.markdown(f"## 🫧 {t['cart_title']}")
 
     if not st.session_state.cart:
         st.markdown(
@@ -1105,7 +1202,7 @@ with st.sidebar:
                     f"""
                     <div class="cart-item-card">
                         <b>{item_name}</b><br>
-                        <span style="font-size:13px; color:#7A4353;">
+                        <span style="font-size:13px; color:#756054;">
                             {item['qty']} {t['pcs']} × {item['price']:,} ₸
                         </span>
                     </div>
