@@ -1042,14 +1042,10 @@ st.markdown(f'<div class="section-heading">{t["dev_section"]}</div>', unsafe_all
 dev_col1, dev_col2 = st.columns([1, 1.5], gap="large")
 
 with dev_col1:
-    st.markdown(
-        """
-        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80"
-             style="width:100%; height:220px; object-fit:cover; border-radius:18px; border:1px solid rgba(156,107,78,0.28); margin-bottom:12px;">
-        <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=800&q=80"
-             style="width:100%; height:170px; object-fit:cover; border-radius:18px; border:1px solid rgba(156,107,78,0.28);">
-        """,
-        unsafe_allow_html=True,
+    import glob
+    imgs = glob.glob("Gemini_Generated_Image*")
+    if imgs:
+        st.image(imgs[0], use_container_width=True)
     )
 
 with dev_col2:
