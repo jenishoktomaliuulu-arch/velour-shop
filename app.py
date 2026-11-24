@@ -10,16 +10,24 @@ if "lang" not in st.session_state:
     st.session_state.lang = "RU"
 if "promo_active" not in st.session_state:
     st.session_state.promo_active = False
+if "active_cat" not in st.session_state:
+    st.session_state.active_cat = None
+if "scroll_to" not in st.session_state:
+    st.session_state.scroll_to = None
 
 # Встроенный переводчик (RU / KZ / EN)
 TEXTS = {
     "RU": {
         "subtitle": "Бутик косметики и аппаратного ухода · Оригинальная продукция",
+        "skin_nav_title": "Подберите уход по типу кожи — нажмите, чтобы перейти к каталогу:",
         "hero_tag": "ХИТ СЕЗОНА · НОВИНКА",
         "hero_title": "Профессиональный уход и чистка лица у вас дома",
         "hero_desc": "Оригинальная косметика из Кореи и Франции, аппараты для ультразвуковой чистки и подбор ухода от наших дипломированных косметологов.",
         "hero_promo": "Промокод на скидку 10% в корзине: VELOUR10",
-        "catalog_title": "Каталог продукции",
+        "skin_cat_title": "Каталог по типам кожи",
+        "skin_cat_sub": "Нажмите на нужный раздел, чтобы раскрыть подобранные средства",
+        "main_cat_title": "Основной каталог косметики и аппаратов",
+        "main_cat_sub": "Отдельный каталог по видам продукции — нажмите на категорию",
         "add_btn": "В корзину",
         "info_btn": "Описание",
         "added_toast": "Добавлено в корзину:",
@@ -58,11 +66,15 @@ TEXTS = {
     },
     "KZ": {
         "subtitle": "Косметика және аппараттық күтім бутигі · Түпнұсқа өнімдер",
+        "skin_nav_title": "Тері түріне сай күтімді таңдаңыз — каталогқа өту үшін басыңыз:",
         "hero_tag": "МАУСЫМ ХИТІ · ЖАҢА ӨНІМ",
         "hero_title": "Үй жағдайындағы кәсіби күтім және бет тазалау",
         "hero_desc": "Корея мен Францияның түпнұсқа косметикасы, ультрадыбыстық тазалау аппараттары және дипломды косметологтардың кеңесі.",
         "hero_promo": "Себетте 10% жеңілдік промокоды: VELOUR10",
-        "catalog_title": "Өнімдер каталогы",
+        "skin_cat_title": "Тері түрлері бойынша каталог",
+        "skin_cat_sub": "Таңдалған өнімдерді көру үшін бөлімді басыңыз",
+        "main_cat_title": "Косметика және аппараттар каталогы",
+        "main_cat_sub": "Өнім түрлері бойынша бөлек каталог — санатты басыңыз",
         "add_btn": "Себетке",
         "info_btn": "Сипаттама",
         "added_toast": "Себетке қосылды:",
@@ -101,11 +113,15 @@ TEXTS = {
     },
     "EN": {
         "subtitle": "Cosmetics & Beauty Devices Boutique · 100% Original",
+        "skin_nav_title": "Choose your skin type — click to jump directly to the catalog:",
         "hero_tag": "BESTSELLER · NEW ARRIVAL",
         "hero_title": "Professional Skincare & Facial Cleansing at Home",
         "hero_desc": "Authentic Korean & French cosmetics, ultrasonic cleansing devices, and personal care guidance from our certified cosmetologists.",
         "hero_promo": "Use promo code in cart for 10% OFF: VELOUR10",
-        "catalog_title": "Product Catalog",
+        "skin_cat_title": "Catalog by Skin Type",
+        "skin_cat_sub": "Click any skin concern to expand tailored products",
+        "main_cat_title": "Main Cosmetics & Devices Catalog",
+        "main_cat_sub": "Browse by product type — click any category to open",
         "add_btn": "Add to cart",
         "info_btn": "Details",
         "added_toast": "Added to cart:",
@@ -144,7 +160,7 @@ TEXTS = {
     },
 }
 
-# CSS: розовый дизайн, лавовый фон, сакура в корзине, карточки и фикс тёмной темы
+# CSS: розовый дизайн, лавовый фон, сакура в корзине, кнопки типов кожи и фикс тёмной темы
 st.markdown(
     """
     <style>
@@ -193,22 +209,28 @@ st.markdown(
         font-size: 54px; font-weight: 700; letter-spacing: 6px;
         color: #4A1525 !important; margin-bottom: 2px; line-height: 1.05;
     }
-    .brand-sub { font-size: 15px; color: #7A4353 !important; margin-bottom: 18px; }
+    .brand-sub { font-size: 15px; color: #7A4353 !important; margin-bottom: 12px; }
+
+    .skin-nav-label {
+        font-size: 14px; font-weight: 600; color: #6B3144 !important;
+        margin-bottom: 10px;
+    }
 
     .section-heading {
         font-family: 'Cormorant Garamond', serif;
         font-size: 36px; font-weight: 700; color: #4A1525 !important;
-        margin-top: 28px; margin-bottom: 6px;
+        margin-top: 28px; margin-bottom: 4px;
     }
-    .section-sub { font-size: 14px; color: #7A4353 !important; margin-bottom: 18px; }
+    .section-sub { font-size: 14px; color: #7A4353 !important; margin-bottom: 16px; }
 
-    /* Hero-баннер (импровизация в стиле современных бьюти-сайтов) */
+    /* Hero-баннер */
     .hero-banner {
-        background: rgba(255, 255, 255, 0.76);
+        background: rgba(255, 255, 255, 0.78);
         backdrop-filter: blur(16px);
         border: 1px solid rgba(201, 24, 74, 0.22);
         border-radius: 22px;
-        padding: 28px 32px;
+        padding: 26px 32px;
+        margin-top: 14px;
         margin-bottom: 24px;
         box-shadow: 0 12px 30px rgba(168, 46, 82, 0.08);
     }
@@ -231,9 +253,9 @@ st.markdown(
         padding: 6px 14px; border-radius: 10px;
     }
 
-    /* Аккордеон (каталог и FAQ) */
+    /* Аккордеон */
     [data-testid="stExpander"] {
-        background: rgba(255, 255, 255, 0.8) !important;
+        background: rgba(255, 255, 255, 0.82) !important;
         backdrop-filter: blur(14px);
         border: 1px solid rgba(217, 79, 112, 0.25) !important;
         border-radius: 16px !important;
@@ -260,7 +282,7 @@ st.markdown(
         transition: transform 0.2s ease;
     }
     .product-card-box:hover { transform: translateY(-3px); }
-    .product-card-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .product-card-img { width: 100%; height: 215px; object-fit: cover; display: block; }
     .product-card-body { padding: 14px 16px 12px 16px; }
     .product-badge {
         display: inline-block; background: #FFE3EC; color: #A4133C !important;
@@ -282,10 +304,7 @@ st.markdown(
         border-radius: 18px; overflow: hidden; margin-bottom: 10px;
         box-shadow: 0 8px 22px rgba(150, 35, 68, 0.08);
     }
-    .spec-card-lead {
-        border: 2px solid #C9184A !important;
-        box-shadow: 0 10px 28px rgba(201, 24, 74, 0.16);
-    }
+    .spec-card-lead { border: 2px solid #C9184A !important; box-shadow: 0 10px 28px rgba(201, 24, 74, 0.16); }
     .spec-img { width: 100%; height: 260px; object-fit: cover; object-position: top; display: block; }
     .spec-body { padding: 16px; }
     .spec-badge-lead {
@@ -301,7 +320,6 @@ st.markdown(
     .spec-role { font-size: 13px; font-weight: 600; color: #A4133C !important; margin-bottom: 8px; }
     .spec-bio { font-size: 13px; color: #6B4250 !important; line-height: 1.45; min-height: 60px; }
 
-    /* Блок адреса */
     .address-card {
         background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(14px);
@@ -311,14 +329,14 @@ st.markdown(
     }
 
     /* Кнопки */
-    div.stButton > button { border-radius: 10px !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
+    div.stButton > button { border-radius: 12px !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
     div.stButton > button[kind="primary"] { background: linear-gradient(135deg, #C9184A, #E04F73) !important; border: none !important; }
     div.stButton > button[kind="primary"] * { color: #FFFFFF !important; }
     div.stButton > button[kind="secondary"] { background: rgba(255, 255, 255, 0.92) !important; border: 1px solid rgba(201, 24, 74, 0.35) !important; }
     div.stButton > button[kind="secondary"] * { color: #800F2F !important; }
-    div.stButton > button[kind="secondary"]:hover { background: #FFE3EC !important; border-color: #C9184A !important; }
+    div.stButton > button[kind="secondary"]:hover { background: #FFE3EC !important; border-color: #C9184A !important; transform: translateY(-1px); }
 
-    /* Модальные окна (фикс тёмной темы) */
+    /* Модальные окна */
     div[role="dialog"], div[role="dialog"] > div, [data-testid="stDialog"] div[role="dialog"] {
         background-color: #FFF6F9 !important; color: #2D161E !important;
         border: 1px solid rgba(201, 24, 74, 0.25) !important; border-radius: 18px !important;
@@ -391,181 +409,328 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Каталог товаров (добавлены аппараты для чистки лица!)
-CATALOG = [
+
+# Вспомогательная функция для создания товара (чтобы код был чистым и компактным)
+def p(pid, n_ru, n_kz, n_en, s_ru, s_kz, s_en, d_ru, d_kz, d_en, vol, o_ru, o_kz, o_en, year, sh_ru, sh_kz, sh_en, ing_ru, ing_kz, ing_en, price, img):
+    return {
+        "id": pid,
+        "name": {"RU": n_ru, "KZ": n_kz, "EN": n_en},
+        "short": {"RU": s_ru, "KZ": s_kz, "EN": s_en},
+        "desc": {"RU": d_ru, "KZ": d_kz, "EN": d_en},
+        "volume": vol,
+        "origin": {"RU": o_ru, "KZ": o_kz, "EN": o_en},
+        "year": year,
+        "shelf_life": {"RU": sh_ru, "KZ": sh_kz, "EN": sh_en},
+        "ingredients": {"RU": ing_ru, "KZ": ing_kz, "EN": ing_en},
+        "price": price,
+        "img": img,
+    }
+
+
+# 1. КАТАЛОГ ПО ТИПАМ КОЖИ (привязан к верхним кнопкам)
+SKIN_CATALOG = [
     {
+        "id": "skin_hydrated",
+        "btn_label": {"RU": "💧 Влажная кожа", "KZ": "💧 Ылғалды тері", "EN": "💧 Hydrated Skin"},
+        "title": {"RU": "💧 Влажная и сияющая кожа", "KZ": "💧 Ылғалды және жарқыраған тері", "EN": "💧 Hydrated & Dewy Skin"},
+        "subtitle": {"RU": "Лёгкое увлажнение, свежесть и защита водного баланса", "KZ": "Жеңіл ылғалдандыру және балғындық", "EN": "Light hydration and moisture balance"},
+        "products": [
+            p("s1", "Аква-гель Aqua Dew", "Aqua Dew аква-гелі", "Aqua Dew Gel",
+              "Невесомый гель для эффекта влажной кожи.", "Ылғалды тері әсеріне арналған жеңіл гель.", "Weightless gel for dewy glass skin.",
+              "Освежающий гель с морским коллагеном моментально впитывается, удерживает влагу на 24 часа и дарит естественное сияние.",
+              "Теңіз коллагені бар сергітетін гель лезде сіңіп, 24 сағат бойы ылғалды сақтайды.",
+              "Refreshing marine collagen gel absorbs instantly and locks in 24h moisture.",
+              "50 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Морской коллаген, гиалурон, сок берёзы", "Теңіз коллагені, гиалурон, қайың шырыны", "Marine collagen, hyaluronic acid, birch sap",
+              11900, "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"),
+            p("s2", "Эссенция Glass Skin", "Glass Skin эссенциясы", "Glass Skin Essence",
+              "Эффект зеркальной и свежей кожи.", "Айнадай тегіс әрі балғын тері әсері.", "Mirror-like fresh skin effect.",
+              "Концентрированная эссенция с ферментами риса выравнивает микрорельеф и придаёт коже здоровый влажный блеск.",
+              "Күріш ферменттері бар эссенция тері реңкін тегістеп, табиғи жылтыр береді.",
+              "Concentrated rice ferment essence smooths texture for a healthy dewy sheen.",
+              "100 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Фермент риса, ниацинамид 3%, аденозин", "Күріш ферменті, ниацинамид 3%", "Rice ferment, niacinamide 3%, adenosine",
+              13400, "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80"),
+            p("s3", "Мист-спрей Water Glow", "Water Glow мист-спрейі", "Water Glow Mist",
+              "Мгновенная свежесть поверх макияжа.", "Макияж үстінен лезде сергітеді.", "Instant freshness over makeup.",
+              "Ультрамелкий спрей-мист освежает кожу в офисе и на улице, предотвращая потерю влаги в течение дня.",
+              "Ұсақ дисперсті мист күні бойы теріні ылғалдандырып, құрғаудан қорғайды.",
+              "Ultra-fine mist refreshes skin anytime and prevents moisture loss.",
+              "120 мл", "Франция", "Франция", "France", "2026", "30 месяцев", "30 ай", "30 months",
+              "Термальная вода, экстракт алоэ, пантенол", "Термалды су, алоэ, пантенол", "Thermal water, aloe extract, panthenol",
+              8900, "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80"),
+        ],
+    },
+    {
+        "id": "skin_dry",
+        "btn_label": {"RU": "🌵 Сухая кожа", "KZ": "🌵 Құрғақ тері", "EN": "🌵 Dry Skin"},
+        "title": {"RU": "🌵 Сухая и чувствительная кожа", "KZ": "🌵 Құрғақ және сезімтал тері", "EN": "🌵 Dry & Sensitive Skin"},
+        "subtitle": {"RU": "Глубокое питание, церамиды и устранение шелушений", "KZ": "Терең нәрлендіру және қабыршақтануды жою", "EN": "Deep nourishment, ceramides and barrier repair"},
+        "products": [
+            p("s4", "Крем-барьер Ceramide Rich", "Ceramide Rich кремі", "Ceramide Rich Cream",
+              "Убирает шелушения и стянутость за ночь.", "Қабыршақтану мен тартылуды бір түнде кетіреді.", "Relieves flakiness and tightness overnight.",
+              "Насыщенный питательный крем с 5 видами церамидов восстанавливает липидный слой даже очень сухой кожи.",
+              "5 түрлі церамиді бар нәрлендіргіш крем өте құрғақ теріні де қалпына келтіреді.",
+              "Rich nourishing cream with 5 ceramides restores the lipid barrier of very dry skin.",
+              "50 мл", "Франция", "Франция", "France", "2026", "36 месяцев", "36 ай", "36 months",
+              "Церамиды 5 типов, масло ши, сквалан", "5 түрлі церамид, ши майы, сквалан", "5 Ceramides, shea butter, squalane",
+              15200, "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=600&q=80"),
+            p("s5", "Масло-эликсир Squalane Drop", "Squalane Drop майы", "Squalane Drop Oil",
+              "Шелковистое питание без забивания пор.", "Тесіктерді бітемейтін жібектей нәрлендіру.", "Silky nourishment without clogging pores.",
+              "100% растительный сквалан с витамином E мгновенно смягчает сухие участки и защищает кожу от ветра и холода.",
+              "100% өсімдік скваланы мен E дәрумені теріні жел мен суықтан қорғайды.",
+              "100% plant squalane with Vitamin E softens dry patches and shields from cold wind.",
+              "30 мл", "Италия", "Италия", "Italy", "2026", "24 месяца", "24 ай", "24 months",
+              "Растительный сквалан, масло жожоба, витамин E", "Өсімдік скваланы, жожоба майы", "Plant squalane, jojoba oil, vitamin E",
+              16400, "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=600&q=80"),
+            p("s6", "Ночная маска Honey Barrier", "Honey Barrier түнгі маскасы", "Honey Barrier Mask",
+              "Интенсивное восстановление во время сна.", "Ұйқы кезінде қарқынды қалпына келтіру.", "Intensive overnight recovery.",
+              "Несмываемая медовая маска с прополисом насыщает кожу влагой и наутро делает лицо мягким и отдохнувшим.",
+              "Прополисі бар түнгі маска теріні ылғалмен қанықтырып, таңертең жұмсақ етеді.",
+              "Leave-on propolis sleeping mask deeply hydrates for soft, rested morning skin.",
+              "75 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Экстракт прополиса, мёд манука, пантенол", "Прополис, манука балы, пантенол", "Propolis extract, manuka honey, panthenol",
+              12900, "https://images.unsplash.com/photo-1570194065650-d99fb4b8ccb0?auto=format&fit=crop&w=600&q=80"),
+        ],
+    },
+    {
+        "id": "skin_oily",
+        "btn_label": {"RU": "✨ Жирная кожа", "KZ": "✨ Майлы тері", "EN": "✨ Oily Skin"},
+        "title": {"RU": "✨ Жирная и проблемная кожа", "KZ": "✨ Майлы және проблемалы тері", "EN": "✨ Oily & Blemish-Prone Skin"},
+        "subtitle": {"RU": "Сужение пор, контроль блеска и мягкие кислоты", "KZ": "Тесіктерді тарылту және жылтырды бақылау", "EN": "Pore tightening, shine control and gentle acids"},
+        "products": [
+            p("s7", "Сыворотка Niacinamide 10% + Zinc", "Niacinamide 10% сарысуы", "Niacinamide 10% Serum",
+              "Контроль жирного блеска и сужение пор.", "Майлы жылтырды бақылап, тесіктерді тарылтады.", "Controls shine and minimizes pores.",
+              "Мощная формула с ниацинамидом и цинком уменьшает выработку себума, осветляет постакне и предотвращает высыпания.",
+              "Ниацинамид пен мырыш тері майын азайтып, бөртпелердің алдын алады.",
+              "Potent niacinamide & zinc formula reduces excess sebum and fades blemishes.",
+              "30 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Ниацинамид 10%, цинк PCA 1%, экстракт чайного дерева", "Ниацинамид 10%, мырыш PCA 1%", "Niacinamide 10%, Zinc PCA 1%, tea tree",
+              11500, "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=600&q=80"),
+            p("s8", "Тоник BHA Pore Clear", "BHA Pore Clear тонигі", "BHA Pore Clear Toner",
+              "Растворяет чёрные точки и очищает поры.", "Қара нүктелерді ерітіп, тесіктерді тазартады.", "Dissolves blackheads and clears pores.",
+              "Отшелушивающий тоник с 2% салициловой кислотой глубоко очищает поры без пересушивания кожи.",
+              "2% салицил қышқылы бар тоник теріні құрғатпай тесіктерді терең тазартады.",
+              "2% salicylic acid exfoliating toner clears pores deeply without over-drying.",
+              "150 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Салициловая кислота (BHA) 2%, кора белой ивы", "Салицил қышқылы 2%, ақ тал қабығы", "Salicylic acid 2%, white willow bark",
+              10200, "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=600&q=80"),
+            p("s9", "Флюид Matte Balance", "Matte Balance флюиді", "Matte Balance Fluid",
+              "Матовая кожа на 10 часов без тяжести.", "Ауырлықсыз 10 сағат бойы күңгірт тері.", "10-hour matte finish without heaviness.",
+              "Лёгкий безмасляный флюид увлажняет жирную кожу и оставляет бархатный матовый финиш, идеальный под тон.",
+              "Майсыз жеңіл флюид теріні ылғалдандырып, барқыттай күңгірт финиш береді.",
+              "Oil-free lightweight fluid hydrates oily skin with a velvety matte finish.",
+              "50 мл", "Франция", "Франция", "France", "2026", "30 месяцев", "30 ай", "30 months",
+              "Экстракт зелёного чая, бамбуковая пудра, цинк", "Көк шай, бамбук ұнтағы, мырыш", "Green tea extract, bamboo powder, zinc",
+              12800, "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80"),
+        ],
+    },
+    {
+        "id": "skin_wrinkles",
+        "btn_label": {"RU": "🌸 Морщины", "KZ": "🌸 Әжімдерге қарсы", "EN": "🌸 Anti-Wrinkle"},
+        "title": {"RU": "🌸 Против морщин и для упругости", "KZ": "🌸 Әжімдерге қарсы және серпімділік", "EN": "🌸 Anti-Wrinkle & Firming"},
+        "subtitle": {"RU": "Ретинол, пептиды и заметный лифтинг-эффект", "KZ": "Ретинол, пептидтер және айқын лифтинг әсері", "EN": "Retinol, peptides and visible lifting effect"},
+        "products": [
+            p("s10", "Сыворотка Retinol Lift 0.5%", "Retinol Lift 0.5% сарысуы", "Retinol Lift 0.5% Serum",
+              "Разглаживает мимические морщины.", "Мимикалық әжімдерді тегістейді.", "Smooths fine lines and wrinkles.",
+              "Инкапсулированный ретинол стимулирует выработку коллагена, делает кожу плотной, гладкой и обновлённой.",
+              "Инкапсуляцияланған ретинол коллаген өндірісін ынталандырып, теріні тегістейді.",
+              "Encapsulated retinol boosts collagen production for firmer, smoother skin.",
+              "30 мл", "Франция", "Франция", "France", "2026", "24 месяца", "24 ай", "24 months",
+              "Ретинол 0.5%, бакучиол, сквалан, витамин E", "Ретинол 0.5%, бакучиол, сквалан", "Retinol 0.5%, bakuchiol, squalane",
+              18500, "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=600&q=80"),
+            p("s11", "Пептидный крем Peptide Sculpt", "Peptide Sculpt кремі", "Peptide Sculpt Cream",
+              "Подтягивает овал лица и укрепляет кожу.", "Бет пішінін тартып, теріні нығайтады.", "Firms facial contours and strengthens skin.",
+              "Антивозрастной крем с комплексом из 9 пептидов повышает эластичность и заметно сокращает глубину морщин.",
+              "9 пептид кешені бар крем терінің серпімділігін арттырып, әжімдерді азайтады.",
+              "Anti-aging cream with 9 peptides improves elasticity and reduces wrinkle depth.",
+              "50 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "36 месяцев", "36 ай", "36 months",
+              "Комплекс 9 пептидов, коллаген, аденозин", "9 пептид кешені, коллаген, аденозин", "9-Peptide complex, collagen, adenosine",
+              19900, "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=600&q=80"),
+            p("s12", "Крем для глаз Eye Youth", "Eye Youth көз кремі", "Eye Youth Eye Cream",
+              "Убирает гусиные лапки и тёмные круги.", "Көз айналасындағы әжімдер мен қара дақты азайтады.", "Targets crow's feet and dark circles.",
+              "Деликатный лифтинг-крем для зоны вокруг глаз с кофеином и пептидами снимает отёчность и разглаживает кожу.",
+              "Кофеин мен пептидтері бар нәзік крем ісінуді басып, көз айналасын тегістейді.",
+              "Delicate eye cream with caffeine and peptides de-puffs and smooths fine lines.",
+              "20 мл", "Италия", "Италия", "Italy", "2026", "24 месяца", "24 ай", "24 months",
+              "Кофеин, матриксил, гиалуроновая кислота", "Кофеин, матриксил, гиалурон қышқылы", "Caffeine, Matrixyl, hyaluronic acid",
+              14200, "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80"),
+        ],
+    },
+]
+
+# 2. ОСНОВНОЙ ОТДЕЛЬНЫЙ КАТАЛОГ КОСМЕТИКИ И АППАРАТОВ (18 товаров)
+MAIN_CATALOG = [
+    {
+        "id": "cat_devices",
         "title": {"RU": "01 · Аппараты для чистки лица", "KZ": "01 · Бет тазалау аппараттары", "EN": "01 · Facial Cleansing Devices"},
-        "subtitle": {
-            "RU": "Ультразвуковой пилинг, вакуум и лифтинг дома",
-            "KZ": "Ультрадыбыстық пилинг, вакуум және үйдегі лифтинг",
-            "EN": "Ultrasonic peeling, pore vacuum and home lifting",
-        },
+        "subtitle": {"RU": "Ультразвуковой пилинг, вакуум и лифтинг дома", "KZ": "Ультрадыбыстық пилинг, вакуум және лифтинг", "EN": "Ultrasonic peeling, pore vacuum and lifting"},
         "products": [
-            {
-                "id": "001",
-                "name": {"RU": "УЗ-скрабер Velour Sonic Pro", "KZ": "Velour Sonic Pro УД-скрабері", "EN": "Velour Sonic Pro Scrubber"},
-                "short": {"RU": "Глубокая ультразвуковая чистка пор (28 кГц).", "KZ": "Тері тесіктерін ультрадыбыспен терең тазалау.", "EN": "Deep ultrasonic pore cleansing (28 kHz)."},
-                "desc": {
-                    "RU": "Профессиональный аппарат для ультразвуковой чистки лица. Мягко удаляет чёрные точки, ороговевшие клетки и усиливает впитывание сывороток в 3 раза.",
-                    "KZ": "Бетті ультрадыбыспен тазалауға арналған кәсіби аппарат. Қара нүктелерді кетіріп, сарысулардың сіңуін 3 есе арттырады.",
-                    "EN": "Professional ultrasonic facial scrubber. Gently removes blackheads, dead skin cells, and boosts serum absorption 3x.",
-                },
-                "volume": "4 режима · 95 г",
-                "origin": {"RU": "Южная Корея", "KZ": "Оңтүстік Корея", "EN": "South Korea"},
-                "year": "2026",
-                "shelf_life": {"RU": "Гарантия 12 мес.", "KZ": "Кепілдік 12 ай", "EN": "12-month warranty"},
-                "ingredients": {"RU": "Аппарат, силиконовый чехол, кабель USB-C, инструкция", "KZ": "Аппарат, силикон қап, USB-C кабелі, нұсқаулық", "EN": "Device, silicone cover, USB-C cable, manual"},
-                "price": 24900,
-                "img": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80",
-            },
-            {
-                "id": "002",
-                "name": {"RU": "Вакуумный очиститель Pore Vacuum", "KZ": "Pore Vacuum вакуумдық тазартқышы", "EN": "Pore Vacuum Cleanser"},
-                "short": {"RU": "Бережное очищение Т-зоны без покраснений.", "KZ": "Т-аймақты қызарусыз ұқыпты тазалау.", "EN": "Gentle T-zone cleansing without redness."},
-                "desc": {
-                    "RU": "Вакуумный аппарат с 4 сменными насадками и 3 уровнями мощности. Эффективно очищает забитые поры и выравнивает микрорельеф кожи.",
-                    "KZ": "4 ауыстырмалы саптамасы және 3 қуат деңгейі бар вакуумдық аппарат. Бітелген тесіктерді тиімді тазартады.",
-                    "EN": "Vacuum cleanser with 4 interchangeable heads and 3 suction levels. Effectively clears clogged pores.",
-                },
-                "volume": "4 насадки · 120 г",
-                "origin": {"RU": "Южная Корея", "KZ": "Оңтүстік Корея", "EN": "South Korea"},
-                "year": "2026",
-                "shelf_life": {"RU": "Гарантия 12 мес.", "KZ": "Кепілдік 12 ай", "EN": "12-month warranty"},
-                "ingredients": {"RU": "Аппарат, 4 насадки, сменные фильтры, кабель USB-C", "KZ": "Аппарат, 4 саптама, сүзгілер, USB-C кабелі", "EN": "Device, 4 heads, spare filters, USB-C cable"},
-                "price": 19500,
-                "img": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
-            },
-            {
-                "id": "003",
-                "name": {"RU": "LED-массажёр Glow Lift 3-в-1", "KZ": "Glow Lift 3-в-1 LED-массажері", "EN": "Glow Lift 3-in-1 LED Device"},
-                "short": {"RU": "Микротоки + светотерапия для упругости кожи.", "KZ": "Тері серпімділігіне арналған микроток + LED.", "EN": "Microcurrents + LED therapy for firm skin."},
-                "desc": {
-                    "RU": "Аппарат для домашнего лифтинга: снимает утренние отёки, подтягивает овал лица и борется с тусклым цветом кожи за 5 минут в день.",
-                    "KZ": "Үйдегі лифтинг аппараты: таңғы ісінуді басады, бет пішінін тартады және күніне 5 минутта теріге жарқыл береді.",
-                    "EN": "Home lifting device: reduces morning puffiness, contours facial lines, and brightens dull skin in 5 minutes a day.",
-                },
-                "volume": "3 LED-спектра · 110 г",
-                "origin": {"RU": "Япония", "KZ": "Жапония", "EN": "Japan"},
-                "year": "2026",
-                "shelf_life": {"RU": "Гарантия 24 мес.", "KZ": "Кепілдік 24 ай", "EN": "24-month warranty"},
-                "ingredients": {"RU": "LED-массажёр, зарядная станция, мешочек, инструкция", "KZ": "LED-массажер, қуаттау станциясы, қапшық", "EN": "LED device, charging dock, travel pouch, manual"},
-                "price": 32900,
-                "img": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80",
-            },
+            p("d1", "УЗ-скрабер Velour Sonic Pro", "Velour Sonic Pro УД-скрабері", "Velour Sonic Pro Scrubber",
+              "Глубокая ультразвуковая чистка пор (28 кГц).", "Тері тесіктерін ультрадыбыспен терең тазалау.", "Deep ultrasonic pore cleansing (28 kHz).",
+              "Профессиональный аппарат для УЗ-чистки лица. Удаляет чёрные точки и усиливает впитывание сывороток в 3 раза.",
+              "Ультрадыбыстық тазалау аппараты. Қара нүктелерді кетіріп, сарысулардың сіңуін 3 есе арттырады.",
+              "Professional ultrasonic facial scrubber. Removes blackheads and boosts serum absorption 3x.",
+              "4 режима · 95 г", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "Гарантия 12 мес.", "Кепілдік 12 ай", "12-mo warranty",
+              "Аппарат, чехол, USB-C кабель, инструкция", "Аппарат, қап, USB-C, нұсқаулық", "Device, cover, USB-C cable, manual",
+              24900, "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80"),
+            p("d2", "Вакуумный очиститель Pore Vacuum", "Pore Vacuum тазартқышы", "Pore Vacuum Cleanser",
+              "Бережное очищение Т-зоны без покраснений.", "Т-аймақты қызарусыз ұқыпты тазалау.", "Gentle T-zone cleansing without redness.",
+              "Вакуумный аппарат с 4 сменными насадками и 3 уровнями мощности. Эффективно очищает забитые поры.",
+              "4 ауыстырмалы саптамасы және 3 қуат деңгейі бар вакуумдық аппарат.",
+              "Vacuum cleanser with 4 heads and 3 suction levels for clogged pores.",
+              "4 насадки · 120 г", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "Гарантия 12 мес.", "Кепілдік 12 ай", "12-mo warranty",
+              "Аппарат, 4 насадки, фильтры, USB-C", "Аппарат, 4 саптама, сүзгілер", "Device, 4 heads, filters, USB-C",
+              19500, "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80"),
+            p("d3", "LED-массажёр Glow Lift 3-в-1", "Glow Lift 3-в-1 LED-массажері", "Glow Lift 3-in-1 LED",
+              "Микротоки + светотерапия для упругости.", "Тері серпімділігіне арналған микроток + LED.", "Microcurrents + LED therapy for firm skin.",
+              "Аппарат для домашнего лифтинга: снимает утренние отёки, подтягивает овал лица за 5 минут в день.",
+              "Үйдегі лифтинг аппараты: таңғы ісінуді басады, бет пішінін тартады.",
+              "Home lifting device: reduces morning puffiness and contours facial lines in 5 min/day.",
+              "3 LED-спектра · 110 г", "Япония", "Жапония", "Japan", "2026", "Гарантия 24 мес.", "Кепілдік 24 ай", "24-mo warranty",
+              "LED-массажёр, зарядная станция, мешочек", "LED-массажер, станция, қапшық", "LED device, dock, travel pouch",
+              32900, "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80"),
         ],
     },
     {
-        "title": {"RU": "02 · Уход за лицом", "KZ": "02 · Бет күтімі", "EN": "02 · Skincare"},
-        "subtitle": {"RU": "Сыворотки, кремы и сияние кожи", "KZ": "Сарысулар, кремдер және тері жарқылы", "EN": "Serums, creams and glowing skin"},
+        "id": "cat_skincare",
+        "title": {"RU": "02 · Уход за лицом (6 товаров)", "KZ": "02 · Бет күтімі (6 тауар)", "EN": "02 · Facial Skincare (6 items)"},
+        "subtitle": {"RU": "Пенки, сыворотки, кремы, SPF и тонеры", "KZ": "Көбіктер, сарысулар, кремдер және SPF", "EN": "Cleansers, serums, creams, SPF and toners"},
         "products": [
-            {
-                "id": "101",
-                "name": {"RU": "Сыворотка Hydra Glow", "KZ": "Hydra Glow сарысуы", "EN": "Hydra Glow Serum"},
-                "short": {"RU": "Глубокое увлажнение и ровный тон кожи.", "KZ": "Терең ылғалдандыру және тегіс реңк.", "EN": "Deep hydration and even skin tone."},
-                "desc": {
-                    "RU": "Концентрированная увлажняющая сыворотка мгновенно убирает сухость, стянутость и возвращает коже естественное сияние без липкости.",
-                    "KZ": "Құрғақтық пен тартылуды лезде басатын, жабысқақтықсыз табиғи жарқыл сыйлайтын сарысу.",
-                    "EN": "Concentrated hydrating serum that relieves dryness and restores natural glow without stickiness.",
-                },
-                "volume": "30 мл",
-                "origin": {"RU": "Южная Корея", "KZ": "Оңтүстік Корея", "EN": "South Korea"},
-                "year": "2026",
-                "shelf_life": {"RU": "24 месяца", "KZ": "24 ай", "EN": "24 months"},
-                "ingredients": {"RU": "Гиалуроновая кислота 2%, ниацинамид 5%, пантенол, центелла", "KZ": "Гиалурон қышқылы 2%, ниацинамид 5%, пантенол", "EN": "Hyaluronic Acid 2%, Niacinamide 5%, Panthenol"},
-                "price": 12500,
-                "img": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80",
-            },
-            {
-                "id": "102",
-                "name": {"RU": "Крем Velvet Barrier", "KZ": "Velvet Barrier кремі", "EN": "Velvet Barrier Cream"},
-                "short": {"RU": "Восстановление и мягкость с церамидами.", "KZ": "Церамидтермен қалпына келтіру және жұмсақтық.", "EN": "Barrier repair and softness with ceramides."},
-                "desc": {
-                    "RU": "Нежный барьерный крем укрепляет защитный слой кожи, успокаивает раздражения и идеально подходит как база под макияж.",
-                    "KZ": "Терінің қорғаныш қабатын нығайтып, тітіркенуді басатын жұмсақ крем.",
-                    "EN": "Gentle barrier cream that strengthens skin protection and calms irritation.",
-                },
-                "volume": "50 мл",
-                "origin": {"RU": "Франция", "KZ": "Франция", "EN": "France"},
-                "year": "2026",
-                "shelf_life": {"RU": "36 месяцев", "KZ": "36 ай", "EN": "36 months"},
-                "ingredients": {"RU": "Церамиды NP/AP, сквалан, масло ши, витамин E", "KZ": "Церамидтер NP/AP, сквалан, ши майы", "EN": "Ceramides NP/AP, Squalane, Shea Butter"},
-                "price": 14900,
-                "img": "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=600&q=80",
-            },
-            {
-                "id": "103",
-                "name": {"RU": "Тонер Rose Mist", "KZ": "Rose Mist тонері", "EN": "Rose Mist Toner"},
-                "short": {"RU": "Освежающий гидролат дамасской розы.", "KZ": "Дамаск раушанының сергітетін гидролаты.", "EN": "Refreshing Damask rose hydrosol."},
-                "desc": {
-                    "RU": "Мягкий бесспиртовой тонер выравнивает pH после умывания, освежает кожу в течение дня и подготавливает её к нанесению крема.",
-                    "KZ": "Спиртсіз жұмсақ тонер жуынғаннан кейін pH деңгейін теңестіріп, теріні сергітеді.",
-                    "EN": "Alcohol-free gentle toner that balances pH after cleansing and refreshes skin.",
-                },
-                "volume": "150 мл",
-                "origin": {"RU": "Италия", "KZ": "Италия", "EN": "Italy"},
-                "year": "2025",
-                "shelf_life": {"RU": "24 месяца", "KZ": "24 ай", "EN": "24 months"},
-                "ingredients": {"RU": "Гидролат дамасской розы 85%, бетаин, экстракт пиона", "KZ": "Дамаск раушаны 85%, бетаин, пион", "EN": "Damask Rose Water 85%, Betaine, Peony"},
-                "price": 8400,
-                "img": "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80",
-            },
+            p("c1", "Сыворотка Hydra Glow", "Hydra Glow сарысуы", "Hydra Glow Serum",
+              "Глубокое увлажнение и ровный тон кожи.", "Терең ылғалдандыру және тегіс реңк.", "Deep hydration and even skin tone.",
+              "Концентрированная сыворотка мгновенно убирает сухость и возвращает коже естественное сияние без липкости.",
+              "Құрғақтықты лезде басатын, жабысқақтықсыз табиғи жарқыл сыйлайтын сарысу.",
+              "Concentrated hydrating serum relieves dryness and restores natural glow.",
+              "30 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Гиалуроновая кислота 2%, ниацинамид 5%", "Гиалурон 2%, ниацинамид 5%", "Hyaluronic Acid 2%, Niacinamide 5%",
+              12500, "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"),
+            p("c2", "Крем Velvet Barrier", "Velvet Barrier кремі", "Velvet Barrier Cream",
+              "Восстановление и мягкость с церамидами.", "Церамидтермен қалпына келтіру.", "Barrier repair with ceramides.",
+              "Нежный барьерный крем укрепляет защитный слой кожи и идеально подходит как база под макияж.",
+              "Терінің қорғаныш қабатын нығайтып, макияж астына тамаша негіз болады.",
+              "Gentle barrier cream strengthens skin protection and works great under makeup.",
+              "50 мл", "Франция", "Франция", "France", "2026", "36 месяцев", "36 ай", "36 months",
+              "Церамиды NP/AP, сквалан, масло ши", "Церамидтер NP/AP, сквалан, ши майы", "Ceramides NP/AP, Squalane, Shea Butter",
+              14900, "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=600&q=80"),
+            p("c3", "Тонер Rose Mist", "Rose Mist тонері", "Rose Mist Toner",
+              "Освежающий гидролат дамасской розы.", "Дамаск раушанының гидролаты.", "Refreshing Damask rose hydrosol.",
+              "Мягкий бесспиртовой тонер выравнивает pH после умывания и подготавливает кожу к крему.",
+              "Спиртсіз тонер жуынғаннан кейін pH деңгейін теңестіріп, теріні сергітеді.",
+              "Alcohol-free gentle toner balances pH after cleansing and refreshes skin.",
+              "150 мл", "Италия", "Италия", "Italy", "2025", "24 месяца", "24 ай", "24 months",
+              "Гидролат розы 85%, бетаин, экстракт пиона", "Раушан суы 85%, бетаин, пион", "Rose water 85%, betaine, peony",
+              8400, "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=600&q=80"),
+            p("c4", "Пенка Cloud Cleanser", "Cloud Cleanser көбігі", "Cloud Cleanser Foam",
+              "Мягкое умывание без чувства стянутости.", "Тартылусыз жұмсақ жуыну көбігі.", "Gentle cleansing without tightness.",
+              "Воздушная пенка с аминокислотами деликатно смывает макияж и загрязнения, сохраняя мягкость кожи.",
+              "Аминқышқылды ауадай жеңіл көбік макияж бен кірді ұқыпты тазартады.",
+              "Airy amino acid foam gently removes makeup and impurities while keeping skin soft.",
+              "150 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Аминокислоты кокоса, экстракт центеллы, ромашка", "Кокос аминқышқылдары, центелла", "Coconut amino acids, centella, chamomile",
+              7600, "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80"),
+            p("c5", "Солнцезащитный флюид SPF 50+", "SPF 50+ күннен қорғау флюиді", "Sun Shield SPF 50+ Fluid",
+              "Невидимая защита от солнца без белых следов.", "Ақ із қалдырмайтын күннен қорғаныс.", "Invisible UV protection, zero white cast.",
+              "Ультралёгкий SPF-флюид нового поколения надёжно защищает от фотостарения и пигментации каждый день.",
+              "Жаңа буынды жеңіл SPF-флюид фотоқартаю мен пигментациядан сенімді қорғайды.",
+              "Next-gen ultra-light SPF fluid protects against photoaging and dark spots daily.",
+              "50 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "30 месяцев", "30 ай", "30 months",
+              "Фотостабильные фильтры, ниацинамид, экстракт риса", "Фототұрақты сүзгілер, күріш", "Photostable UV filters, niacinamide, rice",
+              11400, "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80"),
+            p("c6", "Гидрофильное масло Pure Melt", "Pure Melt гидрофильді майы", "Pure Melt Cleansing Oil",
+              "Растворяет стойкий макияж и SPF за 30 сек.", "Төзімді макияж бен SPF-ті 30 сек ерітеді.", "Melts waterproof makeup & SPF in 30 sec.",
+              "Шелковистое гидрофильное масло при контакте с водой превращается в нежное молочко и очищает поры.",
+              "Сумен жанасқанда жұмсақ сүтке айналып, тесіктерді терең тазартады.",
+              "Silky oil transforms into gentle milk with water, dissolving makeup and clearing pores.",
+              "200 мл", "Япония", "Жапония", "Japan", "2026", "36 месяцев", "36 ай", "36 months",
+              "Масло камелии, миндальное масло, витамин E", "Камелия майы, бадам майы", "Camellia oil, sweet almond oil, vitamin E",
+              13200, "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=600&q=80"),
         ],
     },
     {
-        "title": {"RU": "03 · Макияж", "KZ": "03 · Макияж", "EN": "03 · Makeup"},
-        "subtitle": {"RU": "Невесомые текстуры и акценты", "KZ": "Жеңіл текстуралар мен нәзік реңктер", "EN": "Weightless textures and accents"},
+        "id": "cat_makeup",
+        "title": {"RU": "03 · Макияж (6 товаров)", "KZ": "03 · Макияж (6 тауар)", "EN": "03 · Makeup (6 items)"},
+        "subtitle": {"RU": "Тинты, румяна, кушоны, тушь и хайлайтеры", "KZ": "Тинттер, румяна, кушон, тушь және хайлайтер", "EN": "Tints, blushes, cushions, mascara and glow"},
         "products": [
-            {
-                "id": "201",
-                "name": {"RU": "Тинт для губ Silk Kiss", "KZ": "Silk Kiss ерін тинті", "EN": "Silk Kiss Lip Tint"},
-                "short": {"RU": "Бархатный финиш и стойкий оттенок.", "KZ": "Барқыттай финиш және төзімді реңк.", "EN": "Velvet finish and long-lasting tint."},
-                "desc": {
-                    "RU": "Невесомый тинт с мягкой муссовой текстурой не сушит губы, держится до 8 часов и оставляет аккуратный естественный пигмент.",
-                    "KZ": "Ерінді құрғатпайтын, 8 сағатқа дейін сақталатын жеңіл мусс-тинт.",
-                    "EN": "Weightless mousse lip tint that lasts up to 8 hours without drying your lips.",
-                },
-                "volume": "6 г",
-                "origin": {"RU": "Южная Корея", "KZ": "Оңтүстік Корея", "EN": "South Korea"},
-                "year": "2026",
-                "shelf_life": {"RU": "24 месяца", "KZ": "24 ай", "EN": "24 months"},
-                "ingredients": {"RU": "Масло жожоба, витамин E, гиалуроновые микросферы", "KZ": "Жожоба майы, E дәрумені", "EN": "Jojoba Oil, Vitamin E, Hyaluronic Microspheres"},
-                "price": 7900,
-                "img": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=600&q=80",
-            },
-            {
-                "id": "202",
-                "name": {"RU": "Румяна Blush Cloud", "KZ": "Blush Cloud румянасы", "EN": "Blush Cloud Cheek"},
-                "short": {"RU": "Естественный румянец, тающая текстура.", "KZ": "Табиғи қызғылт реңк, нәзік текстура.", "EN": "Natural flush with a melting texture."},
-                "desc": {
-                    "RU": "Кремовые румяна легко растушёвываются пальцами или спонжем, создавая свежий отдохнувший вид без пятен.",
-                    "KZ": "Саусақпен немесе спонжбен оңай жағылатын, бетке балғын өң беретін кремді румяна.",
-                    "EN": "Cream blush that blends effortlessly with fingers or sponge for a fresh look.",
-                },
-                "volume": "10 г",
-                "origin": {"RU": "Франция", "KZ": "Франция", "EN": "France"},
-                "year": "2026",
-                "shelf_life": {"RU": "30 месяцев", "KZ": "30 ай", "EN": "30 months"},
-                "ingredients": {"RU": "Сквалан, масло семян камелии, натуральные пигменты", "KZ": "Сквалан, камелия майы", "EN": "Squalane, Camellia Seed Oil"},
-                "price": 9500,
-                "img": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80",
-            },
-            {
-                "id": "203",
-                "name": {"RU": "Хайлайтер Liquid Pearl", "KZ": "Liquid Pearl хайлайтері", "EN": "Liquid Pearl Highlighter"},
-                "short": {"RU": "Деликатное влажное сияние кожи.", "KZ": "Теріге нәзік інжу жарқылын береді.", "EN": "Delicate dewy pearl glow."},
-                "desc": {
-                    "RU": "Жидкий хайлайтер со светоотражающими микрочастицами жемчуга даёт эффект здорового блеска без крупных блёсток.",
-                    "KZ": "Ірі жылтырсыз, табиғи әрі сау жарқыл беретін сұйық інжу хайлайтері.",
-                    "EN": "Liquid highlighter with fine pearl micro-particles for a natural healthy glow.",
-                },
-                "volume": "15 мл",
-                "origin": {"RU": "Италия", "KZ": "Италия", "EN": "Italy"},
-                "year": "2025",
-                "shelf_life": {"RU": "24 месяца", "KZ": "24 ай", "EN": "24 months"},
-                "ingredients": {"RU": "Жемчужная мика, экстракт лотоса, витамин C", "KZ": "Інжу микасы, лотос сығындысы", "EN": "Pearl Mica, Lotus Extract, Vitamin C"},
-                "price": 11200,
-                "img": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80",
-            },
+            p("m1", "Тинт для губ Silk Kiss", "Silk Kiss ерін тинті", "Silk Kiss Lip Tint",
+              "Бархатный финиш и стойкий оттенок.", "Барқыттай финиш және төзімді реңк.", "Velvet finish and long-lasting tint.",
+              "Невесомый тинт с муссовой текстурой не сушит губы и держится до 8 часов.",
+              "Ерінді құрғатпайтын, 8 сағатқа дейін сақталатын жеңіл мусс-тинт.",
+              "Weightless mousse lip tint that lasts up to 8 hours without drying lips.",
+              "6 г", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Масло жожоба, витамин E, гиалурон", "Жожоба майы, E дәрумені", "Jojoba Oil, Vitamin E, Hyaluronic",
+              7900, "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=600&q=80"),
+            p("m2", "Румяна Blush Cloud", "Blush Cloud румянасы", "Blush Cloud Cheek",
+              "Естественный румянец, тающая текстура.", "Табиғи қызғылт реңк, нәзік текстура.", "Natural flush with a melting texture.",
+              "Кремовые румяна легко растушёвываются пальцами, создавая свежий отдохнувший вид.",
+              "Саусақпен оңай жағылатын, бетке балғын өң беретін кремді румяна.",
+              "Cream blush that blends effortlessly with fingers for a fresh look.",
+              "10 г", "Франция", "Франция", "France", "2026", "30 месяцев", "30 ай", "30 months",
+              "Сквалан, масло камелии, пигменты", "Сквалан, камелия майы", "Squalane, Camellia Oil, Pigments",
+              9500, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80"),
+            p("m3", "Хайлайтер Liquid Pearl", "Liquid Pearl хайлайтері", "Liquid Pearl Highlighter",
+              "Деликатное влажное сияние кожи.", "Теріге нәзік інжу жарқылын береді.", "Delicate dewy pearl glow.",
+              "Жидкий хайлайтер с микрочастицами жемчуга даёт эффект здорового блеска без крупных блёсток.",
+              "Ірі жылтырсыз, табиғи әрі сау жарқыл беретін сұйық інжу хайлайтері.",
+              "Liquid highlighter with fine pearl particles for a natural healthy glow.",
+              "15 мл", "Италия", "Италия", "Italy", "2025", "24 месяца", "24 ай", "24 months",
+              "Жемчужная мика, лотос, витамин C", "Інжу микасы, лотос, C дәрумені", "Pearl Mica, Lotus, Vitamin C",
+              11200, "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"),
+            p("m4", "Кушон Velvet Skin SPF 40", "Velvet Skin кушоны", "Velvet Skin Cushion",
+              "Ровный тон без эффекта маски.", "Бетперде әсерінсіз тегіс тон.", "Even coverage without a mask feel.",
+              "Увлажняющий кушон перекрывает покраснения, подстраивается под тон кожи и защищает от солнца.",
+              "Қызаруды жасырып, тері реңкіне бейімделетін ылғалдандырғыш кушон.",
+              "Hydrating cushion covers redness, adapts to skin tone, and protects with SPF 40.",
+              "15 г + рефил", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
+              "Ниацинамид, экстракт центеллы, SPF 40", "Ниацинамид, центелла, SPF 40", "Niacinamide, Centella, SPF 40",
+              16800, "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=600&q=80"),
+            p("m5", "Тушь Lash Panorama", "Lash Panorama туші", "Lash Panorama Mascara",
+              "Объём и удлинение без осыпания.", "Төгілмейтін көлем мен ұзарту.", "Volume and length with zero smudging.",
+              "Термостойкая тушь обволакивает каждую ресницу, не отпечатывается и смывается тёплой водой.",
+              "Әр кірпікті ұзартып, жылы сумен оңай жуылатын термотөзімді тушь.",
+              "Tubing mascara coats every lash, stays smudge-proof, and rinses off with warm water.",
+              "9 мл", "Италия", "Италия", "Italy", "2026", "18 месяцев", "18 ай", "18 months",
+              "Карнаубский воск, пантенол, касторовое масло", "Карнауб балауызы, пантенол", "Carnauba wax, panthenol, castor oil",
+              8700, "https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?auto=format&fit=crop&w=600&q=80"),
+            p("m6", "Масло-блеск для губ Gloss Berry", "Gloss Berry ерін майы", "Gloss Berry Lip Oil",
+              "Зеркальный глянец и уход за губами.", "Айнадай жылтыр және ерін күтімі.", "Mirror shine with nourishing lip care.",
+              "Нелипкое масло-блеск с ягодным ароматом питает губы и визуально придаёт им объём.",
+              "Жабыспайтын жидек хош иісті май-жылтыратқыш ерінге көлем береді.",
+              "Non-sticky berry-scented lip oil nourishes lips with a plumping mirror shine.",
+              "7 мл", "Франция", "Франция", "France", "2026", "24 месяца", "24 ай", "24 months",
+              "Масло малиновой косточки, витамин E, сквалан", "Таңқурай майы, E дәрумені", "Raspberry seed oil, vitamin E, squalane",
+              7400, "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=600&q=80"),
+        ],
+    },
+    {
+        "id": "cat_perfume",
+        "title": {"RU": "04 · Парфюмерия", "KZ": "04 · Парфюмерия", "EN": "04 · Fragrance"},
+        "subtitle": {"RU": "Нишевые и шлейфовые ароматы", "KZ": "Нишалық және ұзақ сақталатын иіссулар", "EN": "Niche and long-lasting scents"},
+        "products": [
+            p("f1", "Amber Noir EDP", "Amber Noir EDP", "Amber Noir EDP",
+              "Тёплая амбра, инжир и кашмирское дерево.", "Жылы амбра, інжір және кашмир ағашы.", "Warm amber, black fig and cashmere wood.",
+              "Глубокий вечерний аромат с мягким бархатным шлейфом спелого инжира и тёплой амбры.",
+              "Жұмсақ шлейфі бар терең кешкі хош иіс. Қара інжір мен жылы амбра үйлесімі.",
+              "Deep evening fragrance with a velvety trail of ripe black fig and warm amber.",
+              "50 мл", "Франция (Грасс)", "Франция (Грасс)", "France (Grasse)", "2026", "60 месяцев", "60 ай", "60 months",
+              "Верх: инжир; Сердце: амбра; База: кашмир", "Інжір, амбра, кашмир ағашы", "Fig, Amber, Cashmere Wood",
+              34500, "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80"),
+            p("f2", "White Tea EDP", "White Tea EDP", "White Tea EDP",
+              "Свежий белый чай, бергамот и мускус.", "Ақ шай, бергамот және ақ мускус.", "Fresh white tea, bergamot and musk.",
+              "Лёгкий повседневный парфюм с ощущением чистоты и утренней свежести.",
+              "Таңғы тазалық пен балғындық сезімін сыйлайтын күнделікті жеңіл парфюм.",
+              "Light everyday perfume evoking crisp morning freshness.",
+              "50 мл", "Италия", "Италия", "Italy", "2025", "60 месяцев", "60 ай", "60 months",
+              "Бергамот, белый чай, жасмин, белый мускус", "Бергамот, ақ шай, мускус", "Bergamot, White Tea, White Musk",
+              29800, "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=600&q=80"),
+            p("f3", "Дымка Vanilla Silk", "Vanilla Silk мисті", "Vanilla Silk Mist",
+              "Мадагаскарская ваниль и нежный сандал.", "Мадагаскар ванилі және нәзік сандал.", "Madagascar vanilla and soft sandalwood.",
+              "Парфюмированный мист для тела и волос с деликатной сладостью ванили.",
+              "Дене мен шашқа арналған нәзік ваниль хош иісті ылғалдандырғыш мист.",
+              "Perfumed body and hair mist with delicate vanilla sweetness.",
+              "100 мл", "Франция", "Франция", "France", "2026", "36 месяцев", "36 ай", "36 months",
+              "Ваниль, сандаловое масло, пантенол", "Ваниль, сандал майы, пантенол", "Vanilla, Sandalwood Oil, Panthenol",
+              13500, "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=600&q=80"),
         ],
     },
 ]
@@ -723,6 +888,45 @@ def show_certificate(spec):
     )
 
 
+def render_catalog_block(categories):
+    for category in categories:
+        # Якорь для плавной прокрутки
+        st.markdown(f'<div id="anchor_{category["id"]}"></div>', unsafe_allow_html=True)
+        is_open = st.session_state.active_cat == category["id"]
+        with st.expander(f"**{category['title'][lang]}**  —  {category['subtitle'][lang]}", expanded=is_open):
+            products = category["products"]
+            # Разбиваем по 3 товара в ряд для идеальной ровности
+            for row_start in range(0, len(products), 3):
+                row_items = products[row_start:row_start + 3]
+                cols = st.columns(3, gap="medium")
+                for i, product in enumerate(row_items):
+                    with cols[i]:
+                        price_str = f"{product['price']:,} ₸".replace(",", " ")
+                        st.markdown(
+                            f"""
+                            <div class="product-card-box">
+                                <img class="product-card-img" src="{product['img']}" alt="{product['name'][lang]}">
+                                <div class="product-card-body">
+                                    <span class="product-badge">{product['volume']} · {product['origin'][lang]}</span>
+                                    <div class="product-name">{product['name'][lang]}</div>
+                                    <div class="product-short">{product['short'][lang]}</div>
+                                    <div class="product-price">{price_str}</div>
+                                </div>
+                            </div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+                        b1, b2 = st.columns([1.1, 1], gap="small")
+                        with b1:
+                            if st.button(t["add_btn"], key=f"add_{product['id']}", type="primary", use_container_width=True):
+                                add_to_cart(product)
+                                st.toast(f"{t['added_toast']} {product['name'][lang]}")
+                        with b2:
+                            if st.button(t["info_btn"], key=f"info_{product['id']}", type="secondary", use_container_width=True):
+                                show_product_details(product)
+                st.write("")
+
+
 # 1. ШАПКА + ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА
 head_left, head_right = st.columns([4, 1.4])
 with head_left:
@@ -738,7 +942,23 @@ with head_right:
                 st.session_state.lang = code
                 st.rerun()
 
-# 2. HERO-БАННЕР (ИМПРОВИЗАЦИЯ)
+# 2. ВЫБОР ТИПА КОЖИ СВЕРХУ (НАД ХИТОМ СЕЗОНА) — ПО КЛИКУ ПЕРЕХОДИТ К КАТАЛОГУ ВНИЗУ
+st.markdown(f'<div class="skin-nav-label">{t["skin_nav_title"]}</div>', unsafe_allow_html=True)
+skin_btn_cols = st.columns(4, gap="small")
+for idx_sk, sk_cat in enumerate(SKIN_CATALOG):
+    with skin_btn_cols[idx_sk]:
+        is_selected = st.session_state.active_cat == sk_cat["id"]
+        if st.button(
+            sk_cat["btn_label"][lang],
+            key=f"jump_{sk_cat['id']}",
+            type="primary" if is_selected else "secondary",
+            use_container_width=True,
+        ):
+            st.session_state.active_cat = sk_cat["id"]
+            st.session_state.scroll_to = f"anchor_{sk_cat['id']}"
+            st.rerun()
+
+# 3. HERO-БАННЕР (ХИТ СЕЗОНА)
 st.markdown(
     f"""
     <div class="hero-banner">
@@ -751,39 +971,17 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# 3. КАТАЛОГ ТОВАРОВ (АККОРДЕОН)
-st.markdown(f'<div class="section-heading">{t["catalog_title"]}</div>', unsafe_allow_html=True)
+# 4. ОТДЕЛЬНЫЙ КАТАЛОГ ПО ТИПАМ КОЖИ (РАСКРЫВАЕТСЯ ПО КЛИКУ)
+st.markdown(f'<div class="section-heading">{t["skin_cat_title"]}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="section-sub">{t["skin_cat_sub"]}</div>', unsafe_allow_html=True)
+render_catalog_block(SKIN_CATALOG)
 
-for idx, category in enumerate(CATALOG):
-    with st.expander(f"**{category['title'][lang]}**  —  {category['subtitle'][lang]}", expanded=(idx == 0)):
-        cols = st.columns(3, gap="medium")
-        for i, product in enumerate(category["products"]):
-            with cols[i % 3]:
-                price_str = f"{product['price']:,} ₸".replace(",", " ")
-                st.markdown(
-                    f"""
-                    <div class="product-card-box">
-                        <img class="product-card-img" src="{product['img']}" alt="{product['name'][lang]}">
-                        <div class="product-card-body">
-                            <span class="product-badge">{product['volume']} · {product['origin'][lang]}</span>
-                            <div class="product-name">{product['name'][lang]}</div>
-                            <div class="product-short">{product['short'][lang]}</div>
-                            <div class="product-price">{price_str}</div>
-                        </div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-                b1, b2 = st.columns([1.1, 1], gap="small")
-                with b1:
-                    if st.button(t["add_btn"], key=f"add_{product['id']}", type="primary", use_container_width=True):
-                        add_to_cart(product)
-                        st.toast(f"{t['added_toast']} {product['name'][lang]}")
-                with b2:
-                    if st.button(t["info_btn"], key=f"info_{product['id']}", type="secondary", use_container_width=True):
-                        show_product_details(product)
+# 5. ОТДЕЛЬНЫЙ ОСНОВНОЙ КАТАЛОГ КОСМЕТИКИ И АППАРАТОВ (РАСКРЫВАЕТСЯ ПО КЛИКУ)
+st.markdown(f'<div class="section-heading">{t["main_cat_title"]}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="section-sub">{t["main_cat_sub"]}</div>', unsafe_allow_html=True)
+render_catalog_block(MAIN_CATALOG)
 
-# 4. СПЕЦИАЛИСТЫ (1 ГЛАВНЫЙ + 2 КОЛЛЕГИ)
+# 6. СПЕЦИАЛИСТЫ (1 ГЛАВНЫЙ + 2 КОЛЛЕГИ)
 st.markdown(f'<div class="section-heading">{t["team_title"]}</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="section-sub">{t["team_sub"]}</div>', unsafe_allow_html=True)
 
@@ -812,7 +1010,7 @@ for idx_s, spec in enumerate(SPECIALISTS):
             if st.button(f"🎓 {t['cert_btn']}", key="lead_cert_btn", type="primary", use_container_width=True):
                 show_certificate(spec)
 
-# 5. АДРЕС И КАРТА (САТТАРХАНОВА 5)
+# 7. АДРЕС И КАРТА (САТТАРХАНОВА 5)
 st.markdown(f'<div class="section-heading">{t["addr_title"]}</div>', unsafe_allow_html=True)
 addr_col1, addr_col2 = st.columns([1, 1.6], gap="large")
 
@@ -831,7 +1029,6 @@ with addr_col1:
     )
 
 with addr_col2:
-    # Встроенная интерактивная карта (пр. Б. Саттарханова, 5)
     components.html(
         """
         <div style="border-radius:18px; overflow:hidden; border:1px solid rgba(217,79,112,0.3); box-shadow:0 8px 24px rgba(150,35,68,0.08);">
@@ -849,13 +1046,31 @@ with addr_col2:
         height=275,
     )
 
-# 6. ПОПУЛЯРНЫЕ ВОПРОСЫ (FAQ)
+# 8. ПОПУЛЯРНЫЕ ВОПРОСЫ (FAQ)
 st.markdown(f'<div class="section-heading">{t["faq_title"]}</div>', unsafe_allow_html=True)
 for item_faq in FAQ_LIST:
     with st.expander(f"**{item_faq['q'][lang]}**", expanded=False):
         st.write(item_faq["a"][lang])
 
-# 7. БОКОВАЯ ПАНЕЛЬ — КОРЗИНА С САКУРОЙ И ПРОМОКОДОМ
+# 9. ПЛАВНАЯ ПРОКРУТКА К ВЫБРАННОМУ ТИПУ КОЖИ
+if st.session_state.scroll_to:
+    target_id = st.session_state.scroll_to
+    components.html(
+        f"""
+        <script>
+            setTimeout(function() {{
+                const el = window.parent.document.getElementById("{target_id}");
+                if (el) {{
+                    el.scrollIntoView({{ behavior: "smooth", block: "start" }});
+                }}
+            }}, 150);
+        </script>
+        """,
+        height=0,
+    )
+    st.session_state.scroll_to = None
+
+# 10. БОКОВАЯ ПАНЕЛЬ — КОРЗИНА С САКУРОЙ И ПРОМОКОДОМ
 with st.sidebar:
     st.markdown(
         """
@@ -908,7 +1123,6 @@ with st.sidebar:
 
         st.divider()
 
-        # Промокод VELOUR10
         p_col1, p_col2 = st.columns([2, 1.2])
         with p_col1:
             promo_code = st.text_input("promo", label_visibility="collapsed", placeholder=t["promo_ph"])
