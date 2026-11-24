@@ -1045,7 +1045,7 @@ with dev_col1:
     import glob
     imgs = glob.glob("Gemini_Generated_Image*")
     if imgs:
-        st.image(imgs[0], use_container_width=True))
+        st.image(imgs[0], use_container_width=True)
 
 with dev_col2:
     st.markdown(
