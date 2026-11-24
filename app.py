@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 
-st.set_page_config(page_title="VELOUR — Косметика и Уход", page_icon="🫧", layout="wide")
+st.set_page_config(page_title="VELOUR — Косметика и 3D Уход", page_icon="🫧", layout="wide")
 
 if "cart" not in st.session_state:
     st.session_state.cart = {}
@@ -18,20 +18,21 @@ if "scroll_to" not in st.session_state:
 # Встроенный переводчик (RU / KZ / EN)
 TEXTS = {
     "RU": {
-        "subtitle": "Бутик косметики и аппаратного ухода · Оригинальная продукция",
+        "subtitle": "Бутик косметики и 3D-диагностики кожи · Оригинальная продукция",
         "skin_nav_title": "Подберите уход по типу кожи — нажмите, чтобы перейти к каталогу:",
-        "hero_tag": "ХИТ СЕЗОНА · НОВИНКА",
-        "hero_title": "Профессиональный уход и чистка лица у вас дома",
-        "hero_desc": "Оригинальная косметика из Кореи и Франции, аппараты для ультразвуковой чистки и подбор ухода от наших дипломированных косметологов.",
+        "hero_tag": "ФЛАГМАН · ТЕХНОЛОГИИ БУДУЩЕГО",
+        "hero_title": "Интеллектуальная 3D-диагностика и уход за лицом",
+        "hero_desc": "Оригинальная косметика из Кореи и Франции, профессиональный 3D-анализ вашей кожи на аппарате и подбор ухода от дипломированных косметологов.",
         "hero_promo": "Промокод на скидку 10% в корзине: VELOUR10",
-        "dev_section": "Наш флагманский аппарат для чистки лица",
+        "dev_section": "Наш флагманский 3D-аппарат диагностики и анализа",
         "dev_badge": "СЕРТИФИЦИРОВАННОЕ ОБОРУДОВАНИЕ · 2026",
-        "dev_name": "Velour Sonic Pro — Ультразвуковой аппарат 4-в-1",
-        "dev_desc": "Профессиональный прибор для глубокой ультразвуковой чистки пор (28 кГц), ионофореза и деликатного микромассажа. Прошёл клинические испытания и безопасен даже для чувствительной кожи.",
-        "dev_specs": "• 4 режима работы: пилинг, очищение, питание, лифтинг\n• Медицинская нержавеющая сталь · Защита от влаги IPX5\n• Официальная гарантия 12 месяцев и сертификат соответствия",
+        "dev_name": "Velour 3D Face Analyzer — Система сканирования кожи",
+        "dev_desc": "Профессиональный оптический комплекс для глубокого сканирования кожи в 5 спектрах света. Мгновенно выявляет скрытые проблемы: глубину морщин, забитые поры, уровень влажности и ультрафиолетовые повреждения, помогая составить безошибочную карту ухода.",
+        "dev_specs": "• 5 спектров сканирования (включая UV и поляризованный свет)\n• Точечный анализ морщин, пористости, пигментации и влаги\n• Полноразмерный купол с защитным складным кожухом-гармошкой\n• Официальная сертификация EAC и гарантия безопасности",
+        "dev_slider_title": "Двигайте ползунок, чтобы увидеть разницу До и После ухода:",
         "dev_cert_btn": "Сертификат аппарата",
         "dev_cert_modal": "Сертификат соответствия аппарата",
-        "dev_add_btn": "В корзину — 24 900 ₸",
+        "dev_add_btn": "В корзину (Услуга диагностики) — 24 900 ₸",
         "skin_cat_title": "Каталог по типам кожи",
         "skin_cat_sub": "Нажмите на нужный раздел, чтобы раскрыть подобранные средства",
         "main_cat_title": "Основной каталог косметики и аппаратов",
@@ -39,12 +40,12 @@ TEXTS = {
         "add_btn": "В корзину",
         "info_btn": "Описание",
         "added_toast": "Добавлено в корзину:",
-        "modal_title": "Подробная информация о товаре",
-        "volume": "Граммовка / Характеристики",
+        "modal_title": "Подробная информация",
+        "volume": "Характеристики / Комплектация",
         "origin": "Страна происхождения",
         "year": "Год выпуска",
         "shelf_life": "Срок годности / Гарантия",
-        "ingredients": "Состав / Комплектация",
+        "ingredients": "Состав / Возможности",
         "modal_add": "Добавить в корзину",
         "team_title": "Наши специалисты",
         "team_sub": "Поможем подобрать идеальный уход под ваш тип кожи",
@@ -73,20 +74,21 @@ TEXTS = {
         "pcs": "шт.",
     },
     "KZ": {
-        "subtitle": "Косметика және аппараттық күтім бутигі · Түпнұсқа өнімдер",
+        "subtitle": "Косметика және теріні 3D-диагностикалау бутигі · Түпнұсқа өнімдер",
         "skin_nav_title": "Тері түріне сай күтімді таңдаңыз — каталогқа өту үшін басыңыз:",
-        "hero_tag": "МАУСЫМ ХИТІ · ЖАҢА ӨНІМ",
-        "hero_title": "Үй жағдайындағы кәсіби күтім және бет тазалау",
-        "hero_desc": "Корея мен Францияның түпнұсқа косметикасы, ультрадыбыстық тазалау аппараттары және дипломды косметологтардың кеңесі.",
+        "hero_tag": "ФЛАГМАН · БОЛАШАҚ ТЕХНОЛОГИЯЛАРЫ",
+        "hero_title": "Зияткерлік 3D-диагностика және бет күтімі",
+        "hero_desc": "Корея мен Францияның түпнұсқа косметикасы, аппаратта теріні кәсіби 3D-талдау және дипломды косметологтардың кеңесі.",
         "hero_promo": "Себетте 10% жеңілдік промокоды: VELOUR10",
-        "dev_section": "Бет тазалауға арналған флагмандық аппарат",
+        "dev_section": "Біздің флагмандық 3D-диагностика және талдау аппаратымыз",
         "dev_badge": "СЕРТИФИКАТТАЛҒАН ҚҰРЫЛҒЫ · 2026",
-        "dev_name": "Velour Sonic Pro — 4-в-1 ультрадыбыстық аппараты",
-        "dev_desc": "Тері тесіктерін терең ультрадыбыстық тазалау (28 кГц), ионофорез және микромассажға арналған кәсіби құрылғы. Клиникалық сынақтан өткен.",
-        "dev_specs": "• 4 жұмыс режимі: пилинг, тазалау, нәрлендіру, лифтинг\n• Медициналық болат · Ылғалдан қорғау IPX5\n• 12 ай ресми кепілдік және сәйкестік сертификаты",
+        "dev_name": "Velour 3D Face Analyzer — Теріні сканерлеу жүйесі",
+        "dev_desc": "Теріні жарықтың 5 спектрінде терең сканерлеуге арналған кәсіби оптикалық кешен. Жасырын проблемаларды лезде анықтайды: әжімдердің тереңдігін, бітелген тесіктерді, ылғалдылық деңгейін және ультракүлгін зақымдануларды талдап, күтім картасын қатесіз жасауға көмектеседі.",
+        "dev_specs": "• 5 сканерлеу спектрі (соның ішінде UV және поляризацияланған жарық)\n• Әжімдерді, кеуектілікті, пигментацияны және ылғалды нақты талдау\n• Қорғаныш жиналмалы гармошка-қаптамасы бар толық өлшемді күмбез\n• EAC ресми сертификаты және қауіпсіздік кепілдігі",
+        "dev_slider_title": "Күтімге дейінгі және кейінгі айырмашылықты көру үшін ползунокты жылжытыңыз:",
         "dev_cert_btn": "Аппарат сертификаты",
         "dev_cert_modal": "Аппараттың сәйкестік сертификаты",
-        "dev_add_btn": "Себетке — 24 900 ₸",
+        "dev_add_btn": "Себетке (Диагностика қызметі) — 24 900 ₸",
         "skin_cat_title": "Тері түрлері бойынша каталог",
         "skin_cat_sub": "Таңдалған өнімдерді көру үшін бөлімді басыңыз",
         "main_cat_title": "Косметика және аппараттар каталогы",
@@ -94,12 +96,12 @@ TEXTS = {
         "add_btn": "Себетке",
         "info_btn": "Сипаттама",
         "added_toast": "Себетке қосылды:",
-        "modal_title": "Тауар туралы толық ақпарат",
-        "volume": "Көлемі / Сипаттамасы",
+        "modal_title": "Толық ақпарат",
+        "volume": "Сипаттамасы / Жинақталуы",
         "origin": "Шыққан елі",
         "year": "Шығарылған жылы",
         "shelf_life": "Жарамдылық мерзімі / Кепілдік",
-        "ingredients": "Құрамы / Жинақталуы",
+        "ingredients": "Құрамы / Мүмкіндіктері",
         "modal_add": "Себетке қосу",
         "team_title": "Біздің мамандар",
         "team_sub": "Теріңіздің түріне сай мінсіз күтім таңдауға көмектесеміз",
@@ -128,20 +130,21 @@ TEXTS = {
         "pcs": "дана",
     },
     "EN": {
-        "subtitle": "Cosmetics & Beauty Devices Boutique · 100% Original",
+        "subtitle": "Cosmetics & 3D Skin Diagnosis Boutique · 100% Original",
         "skin_nav_title": "Choose your skin type — click to jump directly to the catalog:",
-        "hero_tag": "BESTSELLER · NEW ARRIVAL",
-        "hero_title": "Professional Skincare & Facial Cleansing at Home",
-        "hero_desc": "Authentic Korean & French cosmetics, ultrasonic cleansing devices, and personal care guidance from our certified cosmetologists.",
+        "hero_tag": "FLAGSHIP · FUTURE TECH",
+        "hero_title": "Intelligent 3D Diagnosis & Skincare",
+        "hero_desc": "Authentic Korean & French cosmetics, professional 3D skin analysis with high-tech hardware, and personal routine design from our certified cosmetologists.",
         "hero_promo": "Use promo code in cart for 10% OFF: VELOUR10",
-        "dev_section": "Our Flagship Facial Cleansing Device",
+        "dev_section": "Our Flagship 3D Skin Diagnosis & Analysis Device",
         "dev_badge": "CERTIFIED BEAUTY DEVICE · 2026",
-        "dev_name": "Velour Sonic Pro — 4-in-1 Ultrasonic Scrubber",
-        "dev_desc": "Professional device for deep ultrasonic pore cleansing (28 kHz), iontophoresis, and gentle micro-massage. Clinically tested and safe for sensitive skin.",
-        "dev_specs": "• 4 modes: peeling, deep cleanse, nutrition, lifting\n• Medical-grade stainless steel · IPX5 waterproof\n• Official 12-month warranty & quality certificate",
+        "dev_name": "Velour 3D Face Analyzer — Advanced Imaging System",
+        "dev_desc": "Professional optical complex for deep skin scanning across 5 light spectrums. Instantly exposes hidden concerns: wrinkle depth, clogged pores, hydration levels, and UV damage to craft an infallible skincare roadmap.",
+        "dev_specs": "• 5 scanning spectrums (including UV & polarized light)\n• Precise analysis of wrinkles, pores, pigmentation, and moisture\n• Full-size face dome with a protective folding bellows-hood\n• Official EAC certification and safety compliance",
+        "dev_slider_title": "Slide to see the difference Before and After skincare:",
         "dev_cert_btn": "Device Certificate",
         "dev_cert_modal": "Device Compliance & Safety Certificate",
-        "dev_add_btn": "Add to cart — 24 900 ₸",
+        "dev_add_btn": "Add to cart (Diagnosis Service) — 24 900 ₸",
         "skin_cat_title": "Catalog by Skin Type",
         "skin_cat_sub": "Click any skin concern to expand tailored products",
         "main_cat_title": "Main Cosmetics & Devices Catalog",
@@ -150,11 +153,11 @@ TEXTS = {
         "info_btn": "Details",
         "added_toast": "Added to cart:",
         "modal_title": "Product Details",
-        "volume": "Volume / Specs",
+        "volume": "Specs / Box contents",
         "origin": "Country of origin",
         "year": "Release year",
         "shelf_life": "Shelf life / Warranty",
-        "ingredients": "Ingredients / In the box",
+        "ingredients": "Ingredients / Features",
         "modal_add": "Add to cart",
         "team_title": "Our Specialists",
         "team_sub": "We help you choose the ideal routine for your skin type",
@@ -286,6 +289,46 @@ st.markdown(
         padding: 22px;
         margin-bottom: 16px;
         box-shadow: 0 10px 28px rgba(92, 68, 52, 0.07);
+    }
+
+    /* Ползунок Слайдер До и После */
+    .slider-title {
+        font-size: 13px; font-weight: 600; color: #756054 !important;
+        margin-bottom: 6px; text-align: center;
+    }
+    .before-after-container {
+        position: relative; width: 100%; height: 290px;
+        border-radius: 18px; overflow: hidden;
+        border: 1px solid rgba(156,107,78,0.3);
+        box-shadow: 0 8px 24px rgba(92,68,52,0.08);
+    }
+    .before-after-container img {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+        pointer-events: none;
+    }
+    .img-after { z-index: 1; }
+    .img-before { z-index: 2; }
+    .slider-input {
+        position: absolute; -webkit-appearance: none; appearance: none;
+        width: 100%; height: 100%; background: transparent; z-index: 3;
+        margin: 0; cursor: ew-resize; outline: none;
+    }
+    .slider-input::-webkit-slider-thumb {
+        -webkit-appearance: none; appearance: none;
+        width: 4px; height: 290px; background: #9C6B4E;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5); cursor: ew-resize;
+    }
+    .slider-line {
+        position: absolute; top: 0; bottom: 0; width: 4px; background: #9C6B4E;
+        z-index: 2; pointer-events: none; box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+    .slider-button {
+        position: absolute; top: 50%; transform: translate(-50%, -50%);
+        width: 36px; height: 36px; background: #FAF6F0; border: 2px solid #9C6B4E;
+        border-radius: 50%; z-index: 2; pointer-events: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        display: flex; align-items: center; justify-content: center;
+        color: #9C6B4E; font-weight: bold; font-size: 14px;
     }
 
     /* Аккордеон */
@@ -474,16 +517,16 @@ def p(pid, n_ru, n_kz, n_en, s_ru, s_kz, s_en, d_ru, d_kz, d_en, vol, o_ru, o_kz
     }
 
 
-# Флагманский аппарат (для отдельной витрины с сертификатом)
+# 3D-Аппарат диагностики и анализа (для отдельной витрины с сертификатом)
 FLAGSHIP_DEVICE = p(
-    "d1", "УЗ-скрабер Velour Sonic Pro", "Velour Sonic Pro УД-скрабері", "Velour Sonic Pro Scrubber",
-    "Глубокая ультразвуковая чистка пор (28 кГц).", "Тері тесіктерін ультрадыбыспен терең тазалау.", "Deep ultrasonic pore cleansing (28 kHz).",
-    "Профессиональный аппарат для УЗ-чистки лица. Удаляет чёрные точки и усиливает впитывание сывороток в 3 раза.",
-    "Ультрадыбыстық тазалау аппараты. Қара нүктелерді кетіріп, сарысулардың сіңуін 3 есе арттырады.",
-    "Professional ultrasonic facial scrubber. Removes blackheads and boosts serum absorption 3x.",
-    "4 режима · 95 г", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "Гарантия 12 мес.", "Кепілдік 12 ай", "12-mo warranty",
-    "Аппарат, чехол, USB-C кабель, инструкция", "Аппарат, қап, USB-C, нұсқаулық", "Device, cover, USB-C cable, manual",
-    24900, "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=700&q=80"
+    "d1", "Система сканирования Velour 3D Face Analyzer", "Velour 3D Face Analyzer сканер жүйесі", "Velour 3D Face Analyzer System",
+    "Комплексный 3D-анализ и диагностика кожи в 5 спектрах.", "Теріні 5 спектрде терең 3D-диагностикалау.", "Comprehensive 3D analysis & 5-spectrum skin diagnosis.",
+    "Профессиональный аппарат для клинической 3D-диагностики лица. Сканирует кожу, оценивая морщины, пористость, увлажненность и скрытую пигментацию.",
+    "Теріні терең 3D-диагностикалауға арналған кәсіби аппарат. Әжімдерді, кеуектілікті, ылғалдылықты және жасырын пигменттерді талдайды.",
+    "Professional 3D skin analysis optical system. Accurately scans face to assess wrinkle depth, pore clogging, hydration, and UV damage.",
+    "5 спектров сканирования · До 30 Мп", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "Гарантия 12 мес.", "Кепілдік 12 ай", "12-mo warranty",
+    "Анализатор Face Analyzer, шнур питания, USB, ПО", "Аппарат, қуат беру блогы, бағдарламалық қамтамасыз ету", "Face Analyzer, power adapter, USB, Software",
+    24900, "image_17.png"
 )
 
 # 1. КАТАЛОГ ПО ТИПАМ КОЖИ
@@ -680,7 +723,7 @@ MAIN_CATALOG = [
               "Airy amino acid foam gently removes makeup and impurities while keeping skin soft.",
               "150 мл", "Южная Корея", "Оңтүстік Корея", "South Korea", "2026", "24 месяца", "24 ай", "24 months",
               "Аминокислоты кокоса, экстракт центеллы, ромашка", "Кокос аминқышқылдары, центелла", "Coconut amino acids, centella, chamomile",
-              7600, "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80"),
+              7600, "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80"),
             p("c5", "Солнцезащитный флюид SPF 50+", "SPF 50+ күннен қорғау флюиді", "Sun Shield SPF 50+ Fluid",
               "Невидимая защита от солнца без белых следов.", "Ақ із қалдырмайтын күннен қорғаныс.", "Invisible UV protection, zero white cast.",
               "Ультралёгкий SPF-флюид нового поколения надёжно защищает от фотостарения и пигментации каждый день.",
@@ -924,12 +967,12 @@ def show_device_certificate():
     st.markdown(f"### {t['dev_name']}")
     st.write("✅ Декларация соответствия ЕАЭС № ЕАЭС N RU Д-KR.РА01.В.44912/26")
     st.write("✅ Международная сертификация безопасности CE / RoHS / KC (Южная Корея)")
-    st.write("✅ Дерматологическое тестирование: одобрено для домашнего использования")
+    st.write("✅ Дерматологическое тестирование: одобрено для клинического и домашнего использования")
     st.markdown(
         """
         <div style="margin-top:16px; padding:22px; border:2px dashed #9C6B4E; border-radius:14px; background:#F6EFE5; text-align:center;">
             <div style="font-family:'Cormorant Garamond', serif; font-size:26px; font-weight:700; color:#5C3D2B;">OFFICIAL QUALITY CERTIFICATE</div>
-            <div style="font-size:13px; color:#6E5B50; margin-top:6px;">Ultrasonic Facial Cleansing Device · Velour Sonic Pro (28 kHz)</div>
+            <div style="font-size:13px; color:#6E5B50; margin-top:6px;">High-Tech Facial Diagnosis & 3D Analyzer System (Velour 3D Scan)</div>
             <div style="font-size:15px; font-weight:700; color:#2E241F; margin-top:10px;">EAC / CE / KC Approved · Reg #KR-2026-99401</div>
         </div>
         """,
@@ -1037,14 +1080,94 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# 4. ОТДЕЛЬНЫЙ БЛОК: АППАРАТ ДЛЯ ЧИСТКИ ЛИЦА + СЕРТИФИКАТ
+# 4. ОТДЕЛЬНЫЙ БЛОК: 3D-АППАРАТ ДИАГНОСТИКИ (C ДВИГАЮЩИМСЯ ПОЛЗУНКОМ И СЕРТИФИКАТОМ)
 st.markdown(f'<div class="section-heading">{t["dev_section"]}</div>', unsafe_allow_html=True)
 dev_col1, dev_col2 = st.columns([1, 1.5], gap="large")
+
 with dev_col1:
+    # Крупный 3D-аппарат с сертификатом
     st.markdown(
-        f'<img src="{FLAGSHIP_DEVICE["img"]}" style="width:100%; height:290px; object-fit:cover; border-radius:18px; border:1px solid rgba(156,107,78,0.28);">',
+        f'<img src="image_17.png" style="width:100%; height:290px; object-fit:cover; border-radius:18px; border:1px solid rgba(156,107,78,0.28); margin-bottom: 12px;">',
         unsafe_allow_html=True,
     )
+    # Ползунок До и После (JS+HTML Слайдер, на основе презентации)
+    st.markdown(f'<div class="slider-title">{t["dev_slider_title"]}</div>', unsafe_allow_html=True)
+    components.html(
+        """
+        <div class="before-after-container">
+            <img class="img-after" src="image_14.png" alt="После ухода">
+            <div class="img-before" id="img-before-box" style="width: 50%; overflow: hidden; position: absolute; top:0; left:0; height:100%;">
+                <img src="image_13.png" style="width: 440px; max-width: none;" alt="До ухода">
+            </div>
+            <div class="slider-line" id="slider-line" style="left: 50%;"></div>
+            <div class="slider-button" id="slider-button" style="left: 50%;">↔</div>
+            <input class="slider-input" type="range" min="0" max="100" value="50" id="slider-input">
+        </div>
+
+        <script>
+            const sliderInput = document.getElementById('slider-input');
+            const imgBefore = document.getElementById('img-before-box');
+            const sliderLine = document.getElementById('slider-line');
+            const sliderButton = document.getElementById('slider-button');
+            const container = document.querySelector('.before-after-container');
+
+            function updateSlider() {
+                const value = sliderInput.value;
+                imgBefore.style.width = value + '%';
+                sliderLine.style.left = value + '%';
+                sliderButton.style.left = value + '%';
+            }
+
+            sliderInput.addEventListener('input', updateSlider);
+            sliderInput.addEventListener('change', updateSlider);
+
+            // Обработка ресайза для корректного отображения широкой картинки
+            function resizeHandler() {
+                const img = imgBefore.querySelector('img');
+                img.style.width = container.offsetWidth + 'px';
+            }
+            window.addEventListener('resize', resizeHandler);
+            resizeHandler();
+        </script>
+
+        <style>
+            .before-after-container {
+                position: relative; width: 100%; height: 260px;
+                border-radius: 14px; overflow: hidden;
+                border: 1px solid rgba(156,107,78,0.25);
+            }
+            .before-after-container img {
+                position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+                pointer-events: none;
+            }
+            .img-after { z-index: 1; }
+            .img-before { z-index: 2; }
+            .slider-input {
+                position: absolute; -webkit-appearance: none; appearance: none;
+                width: 100%; height: 100%; background: transparent; z-index: 3;
+                margin: 0; cursor: ew-resize; outline: none; top:0; left:0;
+            }
+            .slider-input::-webkit-slider-thumb {
+                -webkit-appearance: none; appearance: none;
+                width: 40px; height: 260px; background: transparent; cursor: ew-resize;
+            }
+            .slider-line {
+                position: absolute; top: 0; bottom: 0; width: 4px; background: #9C6B4E;
+                z-index: 2; pointer-events: none; box-shadow: 0 0 8px rgba(0,0,0,0.4);
+            }
+            .slider-button {
+                position: absolute; top: 50%; transform: translate(-50%, -50%);
+                width: 32px; height: 32px; background: #FAF6F0; border: 2px solid #9C6B4E;
+                border-radius: 50%; z-index: 2; pointer-events: none;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                display: flex; align-items: center; justify-content: center;
+                color: #9C6B4E; font-weight: bold; font-size: 14px;
+            }
+        </style>
+        """,
+        height=325,
+    )
+
 with dev_col2:
     st.markdown(
         f"""
